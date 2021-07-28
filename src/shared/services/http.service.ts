@@ -8,7 +8,7 @@ const axiosInstance = axios.create();
 const CancelToken = axios.CancelToken;
 let cancel_req: any;
 
-const API_URL = `${process.env.REACT_APP_BASE_URL}/${process.env.REACT_APP_API_VERSION}`;
+const API_URL = `${process.env.REACT_APP_BASE_URL}`;
 
 const getUrl = (url: string, params = {}) => {
     let urlString = `${API_URL}/${url}`;
