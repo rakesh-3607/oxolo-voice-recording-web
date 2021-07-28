@@ -23,10 +23,11 @@
 .record-wrapper {
     position: relative;
     width: 50%;
+    display: flex;
 
     .record-button-wrapper {
         position: absolute;
-        top: calc(50% - 56px);
+        // top: calc(50% - 56px);
         display: flex;
         justify-content: center;
         align-items: center;
@@ -190,8 +191,6 @@
         width: 80%;
 
         .record-button-wrapper {
-            top: calc(50% - 35px);
-
             .record-button {
                 padding: 20px !important;
                 box-shadow: 0 3px 15px rgba(122, 122, 122, 0.733) !important;

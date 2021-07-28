@@ -103,9 +103,7 @@ class Campaign extends Component<Props> {
             // only for audio track
             audioBitsPerSecond: 128000,
 
-            // used by StereoAudioRecorder
-            // the range 22050 to 96000.
-            // let us force 16khz recording:
+            // for 16khz recording
             desiredSampRate: 16000,
         };
         if (isSafari || isEdge) {
@@ -113,7 +111,7 @@ class Campaign extends Component<Props> {
         }
 
         if (navigator.platform && navigator.platform.toString().toLowerCase().indexOf('win') === -1) {
-            options.sampleRate = 48000; // or 44100 or remove this line for default
+            options.sampleRate = 48000;
         }
 
         if (isSafari) {
@@ -315,9 +313,9 @@ class Campaign extends Component<Props> {
                     <Lottie
                         options={micOption}
                         height={80}
-                        style={{ opacity: '0.5' }}
+                        style={{ transition: '0.2s all ease-in-out', opacity: ((isRecording || isPlaying || reRecording) ? '0.5' : '0') }}
                         width={"100%"}
-                        isStopped={!isRecording}
+                        isStopped={!isRecording && !reRecording}
                         isPaused={false}
                     />
                     <div className="record-button-wrapper">
