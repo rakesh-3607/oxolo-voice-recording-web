@@ -313,7 +313,7 @@ class Campaign extends Component<Props> {
                     <Lottie
                         options={micOption}
                         height={80}
-                        style={{ transition: '0.2s all ease-in-out', opacity: ((isRecording || isPlaying || reRecording) ? '0.5' : '0') }}
+                        style={{ transition: '0.2s all ease-in-out', opacity: ((isRecording || reRecording) ? '0.5' : '0') }}
                         width={"100%"}
                         isStopped={!isRecording && !reRecording}
                         isPaused={false}
