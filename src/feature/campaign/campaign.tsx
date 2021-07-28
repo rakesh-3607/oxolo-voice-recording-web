@@ -21,6 +21,7 @@ interface Props { }
 interface UIState {
     micPermissionBlocked: boolean;
     isRecording: boolean;
+    isPlaying: boolean;
     playerStatus: string;
     campaignData: Sentence[];
     currentCampaignIndex: number;
@@ -41,6 +42,7 @@ class Campaign extends Component<Props> {
     state: UIState = {
         micPermissionBlocked: false,
         isRecording: false,
+        isPlaying: false,
         playerStatus: 'stop',
         campaignData: [],
         currentCampaignIndex: parseInt(localStorage.getItem("currentCampaignIndex") || '0'),
@@ -94,9 +96,17 @@ class Campaign extends Component<Props> {
         }
         var options: Options = {
             type: 'audio',
-            numberOfAudioChannels: isEdge ? 1 : 2,
+            numberOfAudioChannels: 1,
             checkForInactiveTracks: true,
-            bufferSize: 16384
+            bufferSize: 16384,
+
+            // only for audio track
+            audioBitsPerSecond: 128000,
+
+            // used by StereoAudioRecorder
+            // the range 22050 to 96000.
+            // let us force 16khz recording:
+            desiredSampRate: 16000,
         };
         if (isSafari || isEdge) {
             options.recorderType = StereoAudioRecorder;
@@ -108,7 +118,7 @@ class Campaign extends Component<Props> {
 
         if (isSafari) {
             options.sampleRate = 44100;
-            options.bufferSize = 4096;
+            options.bufferSize = 16384;
             options.numberOfAudioChannels = 2;
         }
 
@@ -124,7 +134,7 @@ class Campaign extends Component<Props> {
         ensureMediaPermissions()
             .then((res: any) => {
                 const value = operation === 'isRecording' ? !this.state.isRecording : !this.state.reRecording;
-                this.setState({ [operation]: value, playerStatus: 'stop' }, () => {
+                this.setState({ [operation]: value, playerStatus: 'stop', isPlaying: false }, () => {
                     if (value) {
                         this.handleStartRecording()
                     } else {
@@ -156,6 +166,17 @@ class Campaign extends Component<Props> {
             default:
                 break;
         }
+    }
+
+    toggleAudioPlay = (value: boolean) => {
+        this.setState({ isPlaying: value }, () => {
+            if (this.state.isPlaying) {
+                this.audioRef.play()
+            } else {
+                this.audioRef.pause()
+                this.audioRef.currentTime = 0;
+            }
+        })
     }
 
     handleSubmit = () => {
@@ -282,7 +303,7 @@ class Campaign extends Component<Props> {
     }
 
     render() {
-        const { isRecording, micOption, micPermissionBlocked, campaignData, recordedAudio, reRecording, playerStatus, currentCampaignIndex } = this.state;
+        const { isRecording, micOption, micPermissionBlocked, isPlaying, campaignData, recordedAudio, reRecording, playerStatus, currentCampaignIndex } = this.state;
         return (
             <div className="speak-slider-wrapper">
                 {micPermissionBlocked
@@ -300,7 +321,7 @@ class Campaign extends Component<Props> {
                         isPaused={false}
                     />
                     <div className="record-button-wrapper">
-                        <button className="record-button" disabled={!!recordedAudio} onClick={() => !recordedAudio && this.handleRecordToggle('isRecording')}>{isRecording ? <StopIcon width="30" height="30" color="#005a99" /> : <Mic width="30" height="30" color="#005a99" />}</button>
+                        {!recordedAudio && <button className="record-button" disabled={!!recordedAudio} onClick={() => !recordedAudio && this.handleRecordToggle('isRecording')}>{isRecording ? <StopIcon width="30" height="30" color="#005a99" /> : <Mic width="30" height="30" color="#005a99" />}</button>}
                         {(recordedAudio && !isRecording && !reRecording) && (
                             <>
                                 <audio controls id="recorded-audio" ref={(ele) => this.audioRef = ele} autoPlay={false} onEnded={() => this.handleAudioPlay('stop')}>
@@ -308,8 +329,10 @@ class Campaign extends Component<Props> {
                                     {/* <source src="horse.mp3" type="audio/mpeg" /> */}
                                     Your browser does not support the audio tag.
                                 </audio>
-                                <button className="record-button" onClick={() => this.handleAudioPlay(['pause', 'stop'].includes(playerStatus) ? 'play' : 'pause')}>{['pause', 'stop'].includes(playerStatus) ? <PlayIcon width="30" height="30" color="#005a99" /> : <PauseIcon width="30" height="30" color="#005a99" />}</button>
-                                {['play', 'pause'].includes(playerStatus) && <button className="record-button" onClick={() => this.handleAudioPlay('stop')}><StopIcon width="30" height="30" color="#005a99" /></button>}
+                                {/* <button className="record-button" onClick={() => this.handleAudioPlay(['pause', 'stop'].includes(playerStatus) ? 'play' : 'pause')}>{['pause', 'stop'].includes(playerStatus) ? <PlayIcon width="30" height="30" color="#005a99" /> : <PauseIcon width="30" height="30" color="#005a99" />}</button>
+                                {['play', 'pause'].includes(playerStatus) && <button className="record-button" onClick={() => this.handleAudioPlay('stop')}><StopIcon width="30" height="30" color="#005a99" /></button>} */}
+                                <button className="record-button" onClick={() => this.toggleAudioPlay(!isPlaying)}>{isPlaying ? <StopIcon width="30" height="30" color="#005a99" /> : <PlayIcon width="30" height="30" color="#005a99" />}</button>
+                                {/* {['play', 'pause'].includes(playerStatus) && <button className="record-button" onClick={() => this.handleAudioPlay('stop')}><StopIcon width="30" height="30" color="#005a99" /></button>} */}
                             </>
                         )}
                         {!!recordedAudio && <button className="record-button" disabled={!recordedAudio} onClick={() => !!recordedAudio && this.handleRecordToggle('reRecording')}>{reRecording ? <StopIcon width="30" height="30" color="#005a99" /> : (recordedAudio ? <ReRecord width="30" height="30" color="#005a99" /> : <Mic width="30" height="30" color="#005a99" />)}</button>}

@@ -19,11 +19,11 @@ const Header: React.FC = () => (
                     </defs>
                 </svg>
             </div>
-            <ul>
+            {/* <ul>
                 <li>
                     <a href="#" className="active">Speak</a>
                 </li>
-            </ul>
+            </ul> */}
         </nav>
     </header>
 );

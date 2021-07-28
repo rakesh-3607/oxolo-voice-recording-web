@@ -32,8 +32,6 @@
         display: none;
     }
 
-    // left: calc(50% - 56px);
-
     .record-button {
         padding: 25px;
         background: #ffffff;
@@ -45,18 +43,11 @@
         box-shadow: 0 2px 5px rgba(179, 179, 179, 0.377);
         display: flex;
         justify-content: center;
-        // height: 85px;
-        // width: 85px;
         align-items: center;
 
         &:hover {
             box-shadow: 0 3px 15px rgba(122, 122, 122, 0.733);
-            // background-color: #005a99;
             transform: scale(1.1);
-
-            // svg {
-            //     fill: $white-color;
-            // }
         }
     }
 }
