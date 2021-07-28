@@ -115,6 +115,7 @@
         border-radius: 15px;
         box-shadow: 0 0 15px rgba(117, 117, 117, 0.603);
         margin: 5px 120px;
+        user-select: none;
 
         &>div {
             width: 100%;

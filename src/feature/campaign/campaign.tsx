@@ -319,7 +319,11 @@ class Campaign extends Component<Props> {
                         isPaused={false}
                     />
                     <div className="record-button-wrapper">
-                        {!recordedAudio && <button className="record-button" disabled={!!recordedAudio} onClick={() => !recordedAudio && this.handleRecordToggle('isRecording')}>{isRecording ? <StopIcon width="30" height="30" color="#005a99" /> : <Mic width="30" height="30" color="#005a99" />}</button>}
+                        {!recordedAudio && (
+                            <abbr title={isRecording ? 'Stop' : 'Record'}>
+                                <button className="record-button" disabled={!!recordedAudio} onClick={() => !recordedAudio && this.handleRecordToggle('isRecording')}>{isRecording ? <StopIcon width="30" height="30" color="#005a99" /> : <Mic width="30" height="30" color="#005a99" />}</button>
+                            </abbr>
+                        )}
                         {(recordedAudio && !isRecording && !reRecording) && (
                             <>
                                 <audio controls id="recorded-audio" ref={(ele) => this.audioRef = ele} autoPlay={false} onEnded={() => this.handleAudioPlay('stop')}>
@@ -329,14 +333,21 @@ class Campaign extends Component<Props> {
                                 </audio>
                                 {/* <button className="record-button" onClick={() => this.handleAudioPlay(['pause', 'stop'].includes(playerStatus) ? 'play' : 'pause')}>{['pause', 'stop'].includes(playerStatus) ? <PlayIcon width="30" height="30" color="#005a99" /> : <PauseIcon width="30" height="30" color="#005a99" />}</button>
                                 {['play', 'pause'].includes(playerStatus) && <button className="record-button" onClick={() => this.handleAudioPlay('stop')}><StopIcon width="30" height="30" color="#005a99" /></button>} */}
-                                <button className="record-button" onClick={() => this.toggleAudioPlay(!isPlaying)}>{isPlaying ? <StopIcon width="30" height="30" color="#005a99" /> : <PlayIcon width="30" height="30" color="#005a99" />}</button>
+                                <abbr title={isPlaying ? 'Stop' : 'Play'}>
+                                    <button className="record-button" onClick={() => this.toggleAudioPlay(!isPlaying)}>{isPlaying ? <StopIcon width="30" height="30" color="#005a99" /> : <PlayIcon width="30" height="30" color="#005a99" />}</button>
+                                </abbr>
                                 {/* {['play', 'pause'].includes(playerStatus) && <button className="record-button" onClick={() => this.handleAudioPlay('stop')}><StopIcon width="30" height="30" color="#005a99" /></button>} */}
                             </>
                         )}
-                        {!!recordedAudio && <button className="record-button" disabled={!recordedAudio} onClick={() => !!recordedAudio && this.handleRecordToggle('reRecording')}>{reRecording ? <StopIcon width="30" height="30" color="#005a99" /> : (recordedAudio ? <ReRecord width="30" height="30" color="#005a99" /> : <Mic width="30" height="30" color="#005a99" />)}</button>}
+                        {!!recordedAudio &&
+                            (
+                                <abbr title={reRecording ? 'Stop' : (recordedAudio ? 'Re-record' : 'Record')}>
+                                    <button className="record-button" disabled={!recordedAudio} onClick={() => !!recordedAudio && this.handleRecordToggle('reRecording')}>{reRecording ? <StopIcon width="30" height="30" color="#005a99" /> : (recordedAudio ? <ReRecord width="30" height="30" color="#005a99" /> : <Mic width="30" height="30" color="#005a99" />)}</button>
+                                </abbr>
+                            )}
                     </div>
                 </div>
-                <SubmitButton disabled={!recordedAudio} handleSubmit={this.handleSubmit} />
+                <abbr title="Submit"><SubmitButton disabled={!recordedAudio} handleSubmit={this.handleSubmit} /></abbr>
             </div>
         )
     }
