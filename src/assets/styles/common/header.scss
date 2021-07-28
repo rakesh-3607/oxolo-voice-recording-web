@@ -3,7 +3,7 @@ header {
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        padding: 20px 100px 30px !important;
+        padding: 30px 100px 30px !important;
         height: auto;
         line-height: normal;
         background-color: transparent !important;
@@ -49,5 +49,20 @@ header {
     .active {
         color: $Sapphire-Blue;
         border-bottom: 2px solid $Sapphire-Blue;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 0 !important;
+
+            .nav-brand {
+                margin: 0 !important;
+            }
+        }
     }
 }

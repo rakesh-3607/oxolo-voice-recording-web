@@ -20,34 +20,39 @@
     }
 }
 
-.record-button-wrapper {
-    position: absolute;
-    top: calc(50% - 56px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+.record-wrapper {
+    position: relative;
+    width: 50%;
 
-    audio {
-        display: none;
-    }
-
-    .record-button {
-        padding: 25px;
-        background: #ffffff;
-        border: none;
-        border-radius: 100px;
-        margin: 0 20px;
-        cursor: pointer;
-        transition: 0.2s all ease-in-out;
-        box-shadow: 0 2px 5px rgba(179, 179, 179, 0.377);
+    .record-button-wrapper {
+        position: absolute;
+        top: calc(50% - 56px);
         display: flex;
         justify-content: center;
         align-items: center;
+        width: 100%;
 
-        &:hover {
-            box-shadow: 0 3px 15px rgba(122, 122, 122, 0.733);
-            transform: scale(1.1);
+        audio {
+            display: none;
+        }
+
+        .record-button {
+            padding: 25px;
+            background: #ffffff;
+            border: none;
+            border-radius: 100px;
+            margin: 0 20px;
+            cursor: pointer;
+            transition: 0.2s all ease-in-out;
+            box-shadow: 0 2px 5px rgba(179, 179, 179, 0.377);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            &:hover {
+                box-shadow: 0 3px 15px rgba(122, 122, 122, 0.733);
+                transform: scale(1.1);
+            }
         }
     }
 }
@@ -92,7 +97,7 @@
     height: 450px;
     width: 100%;
     overflow: hidden !important;
-    margin-top: 50px;
+    margin-top: 20px;
 
     .slick-track,
     .slick-list {
@@ -175,6 +180,26 @@
 
             .slide {
                 min-height: 300px !important;
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .record-wrapper {
+        width: 80%;
+
+        .record-button-wrapper {
+            top: calc(50% - 35px);
+
+            .record-button {
+                padding: 20px !important;
+                box-shadow: 0 3px 15px rgba(122, 122, 122, 0.733) !important;
+
+                &:hover {
+                    transform: none !important;
+                    box-shadow: 0 3px 15px rgba(122, 122, 122, 0.733) !important;
+                }
             }
         }
     }

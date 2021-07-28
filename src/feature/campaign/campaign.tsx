@@ -311,11 +311,11 @@ class Campaign extends Component<Props> {
                     : <p> Click < Mic width="20" height="20" color="#005a99" /> then read the sentence aloud</p>
                 }
                 <Carousel slideData={campaignData.map((ele: Sentence, index: number) => ele.sentence)} initialSlide={currentCampaignIndex} />
-                <div style={{ position: 'relative', width: "50%" }}>
+                <div className="record-wrapper">
                     <Lottie
                         options={micOption}
                         height={80}
-                        style={{ opacity: '0' }}
+                        style={{ opacity: '0.5' }}
                         width={"100%"}
                         isStopped={!isRecording}
                         isPaused={false}
