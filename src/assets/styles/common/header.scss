@@ -1,0 +1,53 @@
+header {
+    nav {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 20px 100px 30px !important;
+        height: auto;
+        line-height: normal;
+        background-color: transparent !important;
+        box-shadow: none;
+
+        .nav-brand {
+
+            svg {
+                width: 150px;
+            }
+
+            @include marginRight(50px);
+        }
+
+        ul {
+            li {
+                display: inline-block;
+                padding: 10px 25px;
+
+                a {
+                    text-decoration: none;
+                    color: $dark-gray;
+                    font-family: 'AlegreyaSansSC';
+                    font-size: larger;
+
+                    &:hover {
+                        background: transparent !important;
+                    }
+
+                    &:focus {
+                        color: $Sapphire-Blue;
+                    }
+
+                    &:focus-within {
+                        border-bottom: 2px solid $Sapphire-Blue;
+                    }
+                }
+
+            }
+        }
+    }
+
+    .active {
+        color: $Sapphire-Blue;
+        border-bottom: 2px solid $Sapphire-Blue;
+    }
+}

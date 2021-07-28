@@ -1,0 +1,190 @@
+.align-content-center {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.submit-button {
+    padding: 10px 20px;
+    margin: 20px 0;
+    background: transparent;
+    border: 2px solid $Denim;
+    border-radius: 25px;
+    cursor: pointer !important;
+    transition: 0.2s all ease-in-out;
+
+    &:hover {
+        background-color: $Denim;
+        color: $white-color;
+    }
+}
+
+.record-button-wrapper {
+    position: absolute;
+    top: calc(50% - 56px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+    audio {
+        display: none;
+    }
+
+    // left: calc(50% - 56px);
+
+    .record-button {
+        padding: 25px;
+        background: #ffffff;
+        border: none;
+        border-radius: 100px;
+        margin: 0 20px;
+        cursor: pointer;
+        transition: 0.2s all ease-in-out;
+        box-shadow: 0 2px 5px rgba(179, 179, 179, 0.377);
+        display: flex;
+        justify-content: center;
+        // height: 85px;
+        // width: 85px;
+        align-items: center;
+
+        &:hover {
+            box-shadow: 0 3px 15px rgba(122, 122, 122, 0.733);
+            // background-color: #005a99;
+            transform: scale(1.1);
+
+            // svg {
+            //     fill: $white-color;
+            // }
+        }
+    }
+}
+
+
+//--------------------------------------------Speak module----------------------------------------------------
+.speak-slider-wrapper {
+    @extend .align-content-center;
+    flex-direction: column;
+
+    p {
+        margin: 0;
+        font-size: 20px;
+
+        i {
+            height: 20px;
+            width: 20px;
+        }
+    }
+
+    .btn {
+        background-color: $Bright-Blue;
+
+        &:hover {
+            background-color: darken($Bright-Blue, 20%);
+        }
+
+        &:focus,
+        &:active {
+            background-color: darken($Bright-Blue, 15%);
+        }
+    }
+
+    .lottie-group {
+        @extend .align-content-center;
+    }
+}
+
+//--------------------------------------------carousel css----------------------------------------------------
+
+.slider-wrapper {
+    height: 450px;
+    width: 100%;
+    overflow: hidden !important;
+    margin-top: 50px;
+
+    .slick-track,
+    .slick-list {
+        padding: 10px 0;
+    }
+
+    .slick-track {
+        @extend .align-content-center;
+    }
+
+    .slick-slide {
+        transition: 0.2s all ease-in-out;
+        padding: 10px;
+        border-radius: 15px;
+        box-shadow: 0 0 15px rgba(117, 117, 117, 0.603);
+        margin: 5px 120px;
+
+        &>div {
+            width: 100%;
+        }
+
+        .slide {
+            @extend .align-content-center;
+            min-height: 350px;
+            width: 100%;
+
+            &:focus-visible {
+                outline: none !important;
+            }
+
+            div {
+                @extend .align-content-center;
+                // box-shadow: 0 2px 5px rgba(179, 179, 179, 0.582);
+                width: 100%;
+                text-align: center;
+                word-break: break-all;
+                letter-spacing: 1.5px;
+                line-height: 1.8;
+                padding: 20px;
+                border: none;
+                background-color: $white-color;
+                border-radius: 8px;
+            }
+        }
+    }
+}
+
+@media (min-width : 1024px) and (max-width : 1920px) {
+    .slick-slide {
+        margin: 5px 80px !important;
+    }
+}
+
+@media (min-width : 1024px) and (max-width : 1224px) {
+    .slick-slide {
+        margin: 5px 80px !important;
+    }
+}
+
+@media (min-width : 768px) and (max-width : 1024px) {
+    .slick-slide {
+        margin: 5px 50px !important;
+    }
+}
+
+@media (min-width : 480px) and (max-width : 768px) {
+    .slick-slide {
+        margin: 5px 50px !important;
+    }
+}
+
+
+
+@media (max-width : 480px) {
+    .slider-wrapper {
+        height: 370px;
+
+        .slick-slide {
+            margin: 5px 25px !important;
+
+            .slide {
+                min-height: 300px !important;
+            }
+        }
+    }
+}
