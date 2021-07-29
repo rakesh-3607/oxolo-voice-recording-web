@@ -345,7 +345,7 @@ class Campaign extends Component<Props> {
                                     <button title={isPlaying ? 'Stop' : 'Play'} onClick={() => this.toggleAudioPlay(!isPlaying)}>
                                         {isPlaying
                                             ? <StopIcon width="30" height="30" color="#2E8EFF" />
-                                            : <PlayIcon width="30" height="30" color="#2E8EFF" />}
+                                            : <PlayIcon width="40" height="40" color="#2E8EFF" />}
                                     </button>
                                     <div className="record-button-bg"></div>
                                 </div>
