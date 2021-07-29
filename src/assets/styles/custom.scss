@@ -8,15 +8,16 @@
 .submit-button {
     padding: 10px 20px;
     margin: 20px 0;
-    background: transparent;
-    border: 2px solid $Denim;
+    background: $Cobalt-Blue;
+    border: 2px solid $Cobalt-Blue;
     border-radius: 25px;
     cursor: pointer !important;
     transition: 0.2s all ease-in-out;
+    color: $white-color;
 
     &:hover {
-        background-color: $Denim;
-        color: $white-color;
+        transform: scale(1.1);
+        box-shadow: 0 3px 15px rgba(122, 122, 122, 0.733);
     }
 }
 
@@ -201,6 +202,12 @@
                     box-shadow: 0 3px 15px rgba(122, 122, 122, 0.733) !important;
                 }
             }
+        }
+    }
+
+    .submit-button {
+        &:hover {
+            transform: none !important;
         }
     }
 }
