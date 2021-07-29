@@ -273,7 +273,7 @@ class Campaign extends Component<Props> {
 
         await navigator.mediaDevices.getUserMedia({
             audio: isEdge ? true : {
-                echoCancellation: false
+                echoCancellation: true
             }
         }).then(function (mic) {
             callback(mic);
@@ -331,7 +331,7 @@ class Campaign extends Component<Props> {
                         )}
                         {(recordedAudio && !isRecording && !reRecording) && (
                             <>
-                                <audio controls id="recorded-audio" ref={(ele) => this.audioRef = ele} autoPlay={false} onEnded={() => this.handleAudioPlay('stop')}>
+                                <audio controls id="recorded-audio" ref={(ele) => this.audioRef = ele} autoPlay={false} /* onEnded={() => this.handleAudioPlay('stop')} */ onEnded={() => this.toggleAudioPlay(false)}>
                                     <source src={recordedAudio} /* type="audio/ogg" */ />
                                     {/* <source src="horse.mp3" type="audio/mpeg" /> */}
                                     Your browser does not support the audio tag.
