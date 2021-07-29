@@ -272,7 +272,7 @@ class Campaign extends Component<Props> {
         }
 
         await navigator.mediaDevices.getUserMedia({
-            audio: isEdge ? true : {
+            audio: /* isEdge ? true : */ {
                 echoCancellation: true
             }
         }).then(function (mic) {
@@ -321,13 +321,11 @@ class Campaign extends Component<Props> {
                     />
                     <div className="record-button-wrapper">
                         {!recordedAudio && (
-                            <abbr title={isRecording ? 'Stop' : 'Record'}>
-                                <button className="record-button" disabled={!!recordedAudio} onClick={() => !recordedAudio && this.handleRecordToggle('isRecording')}>
-                                    {isRecording
-                                        ? <StopIcon width="30" height="30" color="#005a99" />
-                                        : <Mic width="30" height="30" color="#005a99" />}
-                                </button>
-                            </abbr>
+                            <button className="record-button" title={isRecording ? 'Stop' : 'Record'} disabled={!!recordedAudio} onClick={() => !recordedAudio && this.handleRecordToggle('isRecording')}>
+                                {isRecording
+                                    ? <StopIcon width="30" height="30" color="#005a99" />
+                                    : <Mic width="30" height="30" color="#005a99" />}
+                            </button>
                         )}
                         {(recordedAudio && !isRecording && !reRecording) && (
                             <>
@@ -338,31 +336,31 @@ class Campaign extends Component<Props> {
                                 </audio>
                                 {/* <button className="record-button" onClick={() => this.handleAudioPlay(['pause', 'stop'].includes(playerStatus) ? 'play' : 'pause')}>{['pause', 'stop'].includes(playerStatus) ? <PlayIcon width="30" height="30" color="#005a99" /> : <PauseIcon width="30" height="30" color="#005a99" />}</button>
                                 {['play', 'pause'].includes(playerStatus) && <button className="record-button" onClick={() => this.handleAudioPlay('stop')}><StopIcon width="30" height="30" color="#005a99" /></button>} */}
-                                <abbr title={isPlaying ? 'Stop' : 'Play'}>
-                                    <button className="record-button" onClick={() => this.toggleAudioPlay(!isPlaying)}>
-                                        {isPlaying
-                                            ? <StopIcon width="30" height="30" color="#005a99" />
-                                            : <PlayIcon width="30" height="30" color="#005a99" />}
-                                    </button>
-                                </abbr>
+                                <button className="record-button" title={isPlaying ? 'Stop' : 'Play'} onClick={() => this.toggleAudioPlay(!isPlaying)}>
+                                    {isPlaying
+                                        ? <StopIcon width="30" height="30" color="#005a99" />
+                                        : <PlayIcon width="30" height="30" color="#005a99" />}
+                                </button>
                                 {/* {['play', 'pause'].includes(playerStatus) && <button className="record-button" onClick={() => this.handleAudioPlay('stop')}><StopIcon width="30" height="30" color="#005a99" /></button>} */}
                             </>
                         )}
                         {!!recordedAudio &&
                             (
-                                <abbr title={reRecording ? 'Stop' : (recordedAudio ? 'Re-record' : 'Record')}>
-                                    <button className="record-button" disabled={!recordedAudio} onClick={() => !!recordedAudio && this.handleRecordToggle('reRecording')}>
-                                        {reRecording
-                                            ? <StopIcon width="30" height="30" color="#005a99" />
-                                            : (recordedAudio
-                                                ? <ReRecord width="30" height="30" color="#005a99" />
-                                                : <Mic width="30" height="30" color="#005a99" />)}
-                                    </button>
-                                </abbr>
+                                <button
+                                    className="record-button"
+                                    disabled={!recordedAudio}
+                                    title={reRecording ? 'Stop' : (recordedAudio ? 'Re-record' : 'Record')}
+                                    onClick={() => !!recordedAudio && this.handleRecordToggle('reRecording')}>
+                                    {reRecording
+                                        ? <StopIcon width="30" height="30" color="#005a99" />
+                                        : (recordedAudio
+                                            ? <ReRecord width="30" height="30" color="#005a99" />
+                                            : <Mic width="30" height="30" color="#005a99" />)}
+                                </button>
                             )}
                     </div>
                 </div>
-                <abbr title="Submit"><SubmitButton disabled={!recordedAudio} handleSubmit={this.handleSubmit} /></abbr>
+                <SubmitButton disabled={!recordedAudio} handleSubmit={this.handleSubmit} />
             </div>
         )
     }
