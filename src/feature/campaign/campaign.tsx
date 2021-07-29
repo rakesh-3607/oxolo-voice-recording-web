@@ -308,7 +308,7 @@ class Campaign extends Component<Props> {
                 <div className="record-instruction">
                     {micPermissionBlocked
                         ? <p className="danger"> You must allow microphone access.</p>
-                        : <p> Click < Mic width="20" height="20" color="#ff588b" /> then read the sentence aloud</p>
+                        : <p> Click < Mic width="20" height="20" color="#2E8EFF" /> then read the sentence aloud</p>
                     }
                 </div>
                 <Carousel slideData={campaignData.map((ele: Sentence, index: number) => ele.sentence)} initialSlide={currentCampaignIndex} />
@@ -326,8 +326,8 @@ class Campaign extends Component<Props> {
                             <div className="record-button">
                                 <button title={isRecording ? 'Stop' : 'Record'} disabled={!!recordedAudio} onClick={() => !recordedAudio && this.handleRecordToggle('isRecording')}>
                                     {isRecording
-                                        ? <StopIcon width="30" height="30" color="#ff588b" />
-                                        : <Mic width="30" height="30" color="#ff588b" />}
+                                        ? <StopIcon width="30" height="30" color="#2E8EFF" />
+                                        : <Mic width="30" height="30" color="#2E8EFF" />}
                                 </button>
                                 <div className="record-button-bg"></div>
                             </div>
@@ -339,17 +339,17 @@ class Campaign extends Component<Props> {
                                     {/* <source src="horse.mp3" type="audio/mpeg" /> */}
                                     Your browser does not support the audio tag.
                                 </audio>
-                                {/* <button className="record-button" onClick={() => this.handleAudioPlay(['pause', 'stop'].includes(playerStatus) ? 'play' : 'pause')}>{['pause', 'stop'].includes(playerStatus) ? <PlayIcon width="30" height="30" color="#ff588b" /> : <PauseIcon width="30" height="30" color="#ff588b" />}</button>
-                                {['play', 'pause'].includes(playerStatus) && <button className="record-button" onClick={() => this.handleAudioPlay('stop')}><StopIcon width="30" height="30" color="#ff588b" /></button>} */}
+                                {/* <button className="record-button" onClick={() => this.handleAudioPlay(['pause', 'stop'].includes(playerStatus) ? 'play' : 'pause')}>{['pause', 'stop'].includes(playerStatus) ? <PlayIcon width="30" height="30" color="#2E8EFF" /> : <PauseIcon width="30" height="30" color="#2E8EFF" />}</button>
+                                {['play', 'pause'].includes(playerStatus) && <button className="record-button" onClick={() => this.handleAudioPlay('stop')}><StopIcon width="30" height="30" color="#2E8EFF" /></button>} */}
                                 <div className="record-button">
                                     <button title={isPlaying ? 'Stop' : 'Play'} onClick={() => this.toggleAudioPlay(!isPlaying)}>
                                         {isPlaying
-                                            ? <StopIcon width="30" height="30" color="#ff588b" />
-                                            : <PlayIcon width="30" height="30" color="#ff588b" />}
+                                            ? <StopIcon width="30" height="30" color="#2E8EFF" />
+                                            : <PlayIcon width="30" height="30" color="#2E8EFF" />}
                                     </button>
                                     <div className="record-button-bg"></div>
                                 </div>
-                                {/* {['play', 'pause'].includes(playerStatus) && <button className="record-button" onClick={() => this.handleAudioPlay('stop')}><StopIcon width="30" height="30" color="#ff588b" /></button>} */}
+                                {/* {['play', 'pause'].includes(playerStatus) && <button className="record-button" onClick={() => this.handleAudioPlay('stop')}><StopIcon width="30" height="30" color="#2E8EFF" /></button>} */}
                             </>
                         )}
                         {!!recordedAudio &&
@@ -360,17 +360,17 @@ class Campaign extends Component<Props> {
                                         title={reRecording ? 'Stop' : (recordedAudio ? 'Re-record' : 'Record')}
                                         onClick={() => !!recordedAudio && this.handleRecordToggle('reRecording')}>
                                         {reRecording
-                                            ? <StopIcon width="30" height="30" color="#ff588b" />
+                                            ? <StopIcon width="30" height="30" color="#2E8EFF" />
                                             : (recordedAudio
-                                                ? <ReRecord width="30" height="30" color="#ff588b" />
-                                                : <Mic width="30" height="30" color="#ff588b" />)}
+                                                ? <ReRecord width="30" height="30" color="#2E8EFF" />
+                                                : <Mic width="30" height="30" color="#2E8EFF" />)}
                                     </button>
                                     <div className="record-button-bg"></div>
                                 </div>
                             )}
                     </div>
                 </div>
-                <SubmitButton disabled={!recordedAudio} handleSubmit={this.handleSubmit} />
+                <SubmitButton disabled={!recordedAudio || reRecording || isRecording} handleSubmit={() => (recordedAudio || !reRecording || !isRecording) && this.handleSubmit} />
             </div>
         )
     }

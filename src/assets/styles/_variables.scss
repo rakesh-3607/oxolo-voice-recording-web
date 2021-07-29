@@ -3,6 +3,9 @@ $green-gradient-color: linear-gradient(270deg, #9cffd5 0%, #58e29f 100%);
 $red-gradient-color: linear-gradient(270deg, #eb5757 0%, #f43b49 100%);
 $desert-strom-gradient: linear-gradient(0deg, white 20%, #f3f2f1);
 
+$submit-button-background-webkit-gradient: -webkit-gradient(linear, left top, right top, from(#5993E5), to(#96E1D9));
+$submit-button-background-gradient: linear-gradient(to right, #5993E5, #96E1D9);
+
 $desert-strom: #f3f2f1;
 
 $purple-color: #6034b1;
@@ -65,8 +68,8 @@ $Zaffre:#0818A8;
 //mic color
 $light-red : #ff4f5e;
 //primary colors
-$primary-color: #f43b49;
-$secondary-color: #58e29f;
+$primary-color: #5993E5;
+$secondary-color: #96E1D9;
 
 //White Color Shades
 $white-color: #ffffff;
