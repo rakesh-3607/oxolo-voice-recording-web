@@ -4,7 +4,10 @@ const API_CONFIG = {
         login: 'auth/login',
     }
 }
-const campaigns = [
+
+const WINDOW_WIDTH = window.innerWidth;
+
+const CAMPAIGNS = [
     {
         "sentenceId": "6cdff7c3-bdc5-4938-9b8c-d3bcb24750f0",
         "code": "sent_0015",
@@ -508,5 +511,7 @@ const campaigns = [
 ];
 
 export {
-    campaigns,
+    API_CONFIG,
+    WINDOW_WIDTH,
+    CAMPAIGNS,
 };

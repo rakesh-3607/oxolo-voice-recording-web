@@ -27,8 +27,22 @@
 // }
 
 @font-face {
-	font-family: 'AlegreyaSansSC';
+	font-family: 'OpenSans';
 	font-display: auto;
 	font-weight: 400;
-	src: url("../fonts/AlegreyaSansSC-Regular.ttf");
+	src: url("../fonts/OpenSans-Regular.ttf");
+}
+
+@font-face {
+	font-family: 'OpenSansItalic';
+	font-display: auto;
+	font-weight: 400;
+	src: url("../fonts/OpenSans-Italic.ttf");
+}
+
+@font-face {
+	font-family: 'ZillaSlab';
+	font-display: auto;
+	font-weight: 400;
+	src: url("../fonts/ZillaSlab-Regular.ttf");
 }

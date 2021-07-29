@@ -17,71 +17,75 @@ interface SubmitButtonProps {
 
 let sliderRef: any;
 
+const settings: Settings = {
+    className: "center",
+    centerMode: true,
+    initialSlide: 0,
+    centerPadding: '400px',
+    slidesToShow: 1,
+    speed: 500,
+    easing: '10',
+    accessibility: false,
+    draggable: false,
+    focusOnSelect: false,
+    swipe: false,
+    waitForAnimate: false,
+    responsive: [{
+        breakpoint: 1600,
+        settings: {
+            arrows: false,
+            centerPadding: '250px',
+        }
+    }, {
+        breakpoint: 1224,
+        settings: {
+            arrows: false,
+            centerPadding: '180px',
+        }
+    }, {
+        breakpoint: 1024,
+        settings: {
+            arrows: false,
+            centerPadding: '150px',
+        }
+    }, {
+        breakpoint: 768,
+        settings: {
+            arrows: false,
+            centerPadding: '0',
+        }
+    }, {
+        breakpoint: 480,
+        settings: {
+            arrows: false,
+            centerPadding: '0',
+        }
+    }]
+};
 const Carousel = (props: CarouselProps) => {
     sliderRef = useRef(null);
 
-    const settings: Settings = {
-        className: "center",
-        centerMode: true,
-        initialSlide: props.initialSlide || 0,
-        centerPadding: '400px',
-        slidesToShow: 1,
-        speed: 500,
-        easing: '10',
-        accessibility: false,
-        draggable: false,
-        focusOnSelect: false,
-        swipe: false,
-        waitForAnimate: false,
-        responsive: [{
-            breakpoint: 1600,
-            settings: {
-                arrows: false,
-                centerPadding: '250px',
-            }
-        }, {
-            breakpoint: 1224,
-            settings: {
-                arrows: false,
-                centerPadding: '180px',
-            }
-        }, {
-            breakpoint: 1024,
-            settings: {
-                arrows: false,
-                centerPadding: '150px',
-            }
-        }, {
-            breakpoint: 768,
-            settings: {
-                arrows: false,
-                centerPadding: '0',
-            }
-        }, {
-            breakpoint: 480,
-            settings: {
-                arrows: false,
-                centerPadding: '0',
-            }
-        }]
-    };
 
     const renderData = () => {
         return props.slideData.map((data: number | string, index: number) => {
             return (
-                <div key={index} className="slide">
-                    <div>{data}</div>
-                </div>
+                <>
+                    <div key={index} className="slide">
+                        <div>{data}</div>
+                    </div>
+                    {index !== props.initialSlide && <div className="blur-overlay"></div>}
+                </>
             )
         })
     }
 
+
     return (
         <div className="slider-wrapper">
-            <Slider ref={ele => sliderRef = ele} {...settings}>
+            <Slider ref={ele => sliderRef = ele} {...{ ...settings, initialSlide: props.initialSlide }}>
                 {renderData()}
             </Slider>
-        </div>
+        </div >
     );
 }
 

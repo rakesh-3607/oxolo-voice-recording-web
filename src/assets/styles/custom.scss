@@ -8,8 +8,8 @@
 .submit-button {
     padding: 10px 20px;
     margin: 20px 0;
-    background: $Cobalt-Blue;
-    border: 2px solid $Cobalt-Blue;
+    background: #b1b4e5;
+    border: 2px solid #b1b4e5;
     border-radius: 25px;
     cursor: pointer !important;
     transition: 0.2s all ease-in-out;
@@ -21,10 +21,24 @@
     }
 }
 
+.record-instruction {
+    p {
+        font-family: 'OpenSansItalic' !important;
+        margin: 0;
+        font-size: 18px;
+    }
+}
+
+.danger {
+    color: $light-red;
+}
+
 .record-wrapper {
     position: relative;
     width: 50%;
     display: flex;
+    transition: 0.2s all ease-in-out;
+    // margin-bottom: 50px;
 
     .record-button-wrapper {
         position: absolute;
@@ -33,29 +47,65 @@
         justify-content: center;
         align-items: center;
         width: 100%;
+        height: 100%;
+        transition: 0.2s all ease-in-out;
 
         audio {
             display: none;
         }
 
         .record-button {
-            padding: 25px;
-            background: #ffffff;
-            border: none;
-            border-radius: 100px;
-            margin: 0 20px;
-            cursor: pointer;
-            transition: 0.2s all ease-in-out;
-            box-shadow: 0 2px 5px rgba(179, 179, 179, 0.377);
+            position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
+            transition: 0.2s all ease-in-out;
+            margin: 0 20px;
+            padding: 5px;
+
+            &>button {
+                background-color: #ffffff;
+                padding: 25px 26px;
+                border: none;
+                border-radius: 100px;
+                cursor: pointer;
+                transition: 0.2s all ease-in-out;
+                // box-shadow: 0 2px 5px rgba(179, 179, 179, 0.377);
+
+                &:hover {
+                    background-color: $white-color !important;
+                    // box-shadow: 0 3px 15px rgba(122, 122, 122, 0.733);
+                    transform: scale(1.1);
+
+                }
+
+            }
+
+            .record-button-bg {
+                height: 105%;
+                width: 105%;
+                opacity: 0.5;
+                border-radius: 100px;
+                z-index: -1;
+                filter: blur(7.6px);
+                transition: opacity 0.2s linear;
+                will-change: opacity;
+                position: absolute;
+                background: -webkit-gradient(linear, left top, right top, from(#b1b4e5), to(#f89096));
+                background: linear-gradient(to right, #b1b4e5, #f89096);
+
+            }
 
             &:hover {
-                box-shadow: 0 3px 15px rgba(122, 122, 122, 0.733);
-                transform: scale(1.1);
+                .record-button-bg {
+                    opacity: 1;
+                }
             }
+
+
         }
+
+
     }
 }
 
@@ -64,16 +114,6 @@
 .speak-slider-wrapper {
     @extend .align-content-center;
     flex-direction: column;
-
-    p {
-        margin: 0;
-        font-size: 20px;
-
-        i {
-            height: 20px;
-            width: 20px;
-        }
-    }
 
     .btn {
         background-color: $Bright-Blue;
@@ -96,10 +136,10 @@
 //--------------------------------------------carousel css----------------------------------------------------
 
 .slider-wrapper {
-    height: 450px;
+    // height: 450px;
     width: 100%;
     overflow: hidden !important;
-    margin-top: 20px;
+    margin-top: 50px;
 
     .slick-track,
     .slick-list {
@@ -110,15 +150,22 @@
         @extend .align-content-center;
     }
 
+    .slick-active {
+        opacity: 1 !important;
+    }
+
     .slick-slide {
+        opacity: 0.3;
         transition: 0.2s all ease-in-out;
         padding: 10px;
-        border-radius: 15px;
-        box-shadow: 0 0 15px rgba(117, 117, 117, 0.603);
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(182, 182, 182, 0.603);
         margin: 5px 120px;
+        background-color: $white-color;
         user-select: none;
 
         &>div {
+            position: relative;
             width: 100%;
         }
 
@@ -127,6 +174,7 @@
             min-height: 350px;
             width: 100%;
 
+            &:focus,
             &:focus-visible {
                 outline: none !important;
             }
@@ -136,14 +184,31 @@
                 // box-shadow: 0 2px 5px rgba(179, 179, 179, 0.582);
                 width: 100%;
                 text-align: center;
-                word-break: break-all;
+                word-wrap: break-word;
+                font-size: 30px;
+                font-family: 'OpenSans';
+                align-items: baseline;
+                max-height: 250px;
+                overflow: hidden;
                 letter-spacing: 1.5px;
                 line-height: 1.8;
-                padding: 20px;
+                padding: 30px 40px;
                 border: none;
                 background-color: $white-color;
-                border-radius: 8px;
             }
+
+        }
+
+        .blur-overlay {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            opacity: 1;
+            backdrop-filter: blur(5px);
+            top: 0;
+            left: 0;
+            border-radius: 5px;
+            overflow: hidden;
         }
     }
 }
@@ -169,6 +234,12 @@
 @media (min-width : 480px) and (max-width : 768px) {
     .slick-slide {
         margin: 5px 50px !important;
+
+        .slide {
+            div {
+                font-size: 22px;
+            }
+        }
     }
 }
 
@@ -176,36 +247,45 @@
 
 @media (max-width : 480px) {
     .slider-wrapper {
-        height: 370px;
+        height: auto;
+        margin: 0;
 
         .slick-slide {
             margin: 5px 25px !important;
 
             .slide {
-                min-height: 300px !important;
+                min-height: 280px !important;
+
+                div {
+                    font-size: 20px;
+                }
             }
         }
     }
 }
 
 @media (max-width: 768px) {
+
     .record-wrapper {
         width: 80%;
+        margin: 0;
 
         .record-button-wrapper {
             .record-button {
-                padding: 20px !important;
-                box-shadow: 0 3px 15px rgba(122, 122, 122, 0.733) !important;
+                &>button {
+                    padding: 20px 21px !important;
+                }
 
                 &:hover {
                     transform: none !important;
-                    box-shadow: 0 3px 15px rgba(122, 122, 122, 0.733) !important;
                 }
             }
         }
     }
 
     .submit-button {
+        margin: 0;
+
         &:hover {
             transform: none !important;
         }
