@@ -332,7 +332,7 @@ class Campaign extends Component<Props> {
                                 <div className="record-button-bg"></div>
                             </div>
                         )}
-                        {(recordedAudio && !isRecording && !reRecording) && (
+                        {(!!recordedAudio && !isRecording && !reRecording) && (
                             <>
                                 <audio controls id="recorded-audio" ref={(ele) => this.audioRef = ele} autoPlay={false} /* onEnded={() => this.handleAudioPlay('stop')} */ onEnded={() => this.toggleAudioPlay(false)}>
                                     <source src={recordedAudio} /* type="audio/ogg" */ />
@@ -370,7 +370,7 @@ class Campaign extends Component<Props> {
                             )}
                     </div>
                 </div>
-                <SubmitButton disabled={!recordedAudio || reRecording || isRecording} handleSubmit={() => (recordedAudio || !reRecording || !isRecording) && this.handleSubmit} />
+                <SubmitButton disabled={!recordedAudio || reRecording || isRecording} handleSubmit={() => (recordedAudio || !reRecording || !isRecording) && this.handleSubmit()} />
             </div>
         )
     }
