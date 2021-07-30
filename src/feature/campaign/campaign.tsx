@@ -31,6 +31,10 @@ interface UIState {
     lottieScale: {
         height: number | string;
         width: number | string;
+    },
+    recordError: {
+        isError: boolean;
+        message: string;
     }
     // [key: string]: any
 }
@@ -63,6 +67,10 @@ class Campaign extends Component<Props> {
         lottieScale: {
             height: 200,
             width: 200
+        },
+        recordError: {
+            isError: false,
+            message: 'string'
         }
     };
 
@@ -115,6 +123,7 @@ class Campaign extends Component<Props> {
         }
         var options: Options = {
             type: 'audio',
+            mimeType: 'audio/wav',
             numberOfAudioChannels: 1,
             checkForInactiveTracks: true,
             bufferSize: 16384,
@@ -197,10 +206,15 @@ class Campaign extends Component<Props> {
     }
 
     handleSubmit = () => {
-        this.setState({ currentCampaignIndex: this.state.currentCampaignIndex + 1, recordedAudio: '' }, () => {
-            localStorage.setItem("currentCampaignIndex", (this.state.currentCampaignIndex).toString())
-            this.getUploadCredentials()
-        })
+        if (!this.recorder || !this.recorder.getBlob() || this.recorder.getBlob().size <= 50000) {
+            this.setState({ recordedAudio: '', recordError: { isError: true, message: 'The recording was too short, please record again.' } })
+            return;
+        } else {
+            this.setState({ currentCampaignIndex: this.state.currentCampaignIndex + 1, recordedAudio: '', recordError: { isError: false, message: '' } }, () => {
+                localStorage.setItem("currentCampaignIndex", (this.state.currentCampaignIndex).toString())
+                this.getUploadCredentials()
+            })
+        }
     }
 
     getUploadCredentials = () => {
@@ -235,16 +249,17 @@ class Campaign extends Component<Props> {
         var year = d.getFullYear();
         var month = d.getMonth();
         var date = d.getDate();
-        return 'RecordRTC-' + year + month + date + '-' + this.getRandomString() + '.' + fileExtension;
+        return 'Speak-' + year + month + date + '-' + this.getRandomString() + '.' + fileExtension;
     }
 
 
     uploadFileToS3 = (presignedPostData: any) => {
         const sentenceId = this.state.campaignData[this.state.currentCampaignIndex - 1].sentenceId
         const fileUrl = `${presignedPostData.uploadUrl}/${sentenceId}/${presignedPostData.fileId}`
-        const file = new File([this.recorder.getBlob()], this.getFileName('mp3'), {
-            type: 'audio/mp3'
+        const file = new File([this.recorder.getBlob()], this.getFileName('wav'), {
+            type: 'audio/wav'
         });
+
         const params = {
             sentenceId,
             fileUrl,
@@ -311,21 +326,37 @@ class Campaign extends Component<Props> {
         this.audioRef.load();
     }
 
+    // bytesToSize = (bytes: any) => {
+    //     var k = 1000;
+    //     var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    //     if (bytes === 0) {
+    //         return '0 Bytes';
+    //     }
+    //     var math = Math.floor(Math.log(bytes) / Math.log(k));
+    //     var i = parseInt(math.toString(), 10);
+    //     return (bytes / Math.pow(k, i)).toPrecision(3) + ' ' + sizes[i];
+    // }
+
     handleStopRecording = () => {
-        this.recorder.stopRecording((data: any) => {
-            this.setState({ recordedAudio: data }, () => {
-                this.replaceAudio();
-            });
+        this.recorder.stopRecording(async (data: any) => {
+            if (!this.recorder || !this.recorder.getBlob() || this.recorder.getBlob().size <= 50000) {
+                this.setState({ recordedAudio: '', recordError: { isError: true, message: 'The recording was too short, please record again.' } })
+                return;
+            } else {
+                this.setState({ recordError: { isError: false, message: '' }, recordedAudio: data }, () => {
+                    this.replaceAudio();
+                });
+            }
         })
     }
 
     render() {
-        const { isRecording, micOption, micPermissionBlocked, lottieScale, isPlaying, campaignData, recordedAudio, reRecording, playerStatus, currentCampaignIndex } = this.state;
+        const { isRecording, micOption, micPermissionBlocked, recordError, lottieScale, isPlaying, campaignData, recordedAudio, reRecording, playerStatus, currentCampaignIndex } = this.state;
         return (
             <div className="speak-slider-wrapper">
                 <div className="record-instruction">
-                    {micPermissionBlocked
-                        ? <p className="danger"> You must allow microphone access.</p>
+                    {(micPermissionBlocked || recordError.isError)
+                        ? <p className="danger"> {recordError.isError ? recordError.message : 'You must allow microphone access.'}</p>
                         : <p> Click < Mic width="20" height="20" color="#2E8EFF" /> then read the sentence aloud</p>
                     }
                 </div>
@@ -357,7 +388,7 @@ class Campaign extends Component<Props> {
                                 )}
                                 {(!!recordedAudio && !isRecording && !reRecording) && (
                                     <>
-                                        <audio controls id="recorded-audio" ref={(ele) => this.audioRef = ele} autoPlay={false} /* onEnded={() => this.handleAudioPlay('stop')} */ onEnded={() => this.toggleAudioPlay(false)}>
+                                        <audio controls id="recorded-audio" ref={(ele) => this.audioRef = ele} preload="auto" autoPlay={false} /* onEnded={() => this.handleAudioPlay('stop')} */ onEnded={() => this.toggleAudioPlay(false)}>
                                             <source src={recordedAudio} /* type="audio/ogg" */ />
                                             {/* <source src="horse.mp3" type="audio/mpeg" /> */}
                                             Your browser does not support the audio tag.
