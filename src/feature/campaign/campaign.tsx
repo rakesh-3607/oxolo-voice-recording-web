@@ -2,9 +2,9 @@ import { Component, createRef } from 'react';
 import Lottie from 'react-lottie';
 import RecordRTC, { StereoAudioRecorder, Options } from 'recordrtc';
 
-import { ensureMediaPermissions } from '../../shared/utils/utiity';
+import { ensureMediaPermissions, getLottieScale } from '../../shared/utils/utiity';
 import HttpService from '../../shared/services/http.service';
-import { CAMPAIGNS, WINDOW_WIDTH } from '../../shared/constants/constants'
+import { CAMPAIGNS, WINDOW_WIDTH, WINDOW_HEIGHT } from '../../shared/constants/constants'
 
 import { Mic, PauseIcon, PlayIcon, ReRecord, StopIcon } from '../../assets/icons/svgIcons';
 import { Carousel, SubmitButton } from '../../shared/common/carousel';
@@ -28,6 +28,10 @@ interface UIState {
     micOption: any;
     recordedAudio: string;
     reRecording: boolean;
+    lottieScale: {
+        height: number | string;
+        width: number | string;
+    }
     // [key: string]: any
 }
 
@@ -55,12 +59,26 @@ class Campaign extends Component<Props> {
             rendererSettings: {
                 preserveAspectRatio: 'xMidYMid slice'
             }
+        },
+        lottieScale: {
+            height: 200,
+            width: 200
         }
     };
 
     componentDidMount = () => {
         this.createUser()
         this.getCampaignData()
+        getLottieScale(WINDOW_WIDTH + 'X' + WINDOW_HEIGHT)
+            .then(lottieScale => {
+                this.setState({ lottieScale })
+            });
+        // this.setState({
+        //     lottieScale: {
+        //         height: (WINDOW_HEIGHT <= 768 ? (WINDOW_WIDTH <= 1024 ? 115 : 150) : (WINDOW_HEIGHT >= 731 ? 200 : 135)),
+        //         width: (WINDOW_WIDTH <= 1024 ? 330 : (WINDOW_HEIGHT >= 731 ? 300 : 130))
+        //     }
+        // })
         // this.initRecording()
     }
 
@@ -302,7 +320,7 @@ class Campaign extends Component<Props> {
     }
 
     render() {
-        const { isRecording, micOption, micPermissionBlocked, isPlaying, campaignData, recordedAudio, reRecording, playerStatus, currentCampaignIndex } = this.state;
+        const { isRecording, micOption, micPermissionBlocked, lottieScale, isPlaying, campaignData, recordedAudio, reRecording, playerStatus, currentCampaignIndex } = this.state;
         return (
             <div className="speak-slider-wrapper">
                 <div className="record-instruction">
@@ -318,9 +336,9 @@ class Campaign extends Component<Props> {
                 <div className="record-wrapper">
                     <Lottie
                         options={micOption}
-                        height={WINDOW_WIDTH <= 768 ? 150 : 200}
+                        height={lottieScale.height}
                         style={{ transition: '0.2s all ease-in-out', opacity: ((isRecording || reRecording) ? '0.5' : '0') }}
-                        width={400}
+                        width={lottieScale.width}
                         isStopped={!isRecording && !reRecording}
                         isPaused={false}
                     />

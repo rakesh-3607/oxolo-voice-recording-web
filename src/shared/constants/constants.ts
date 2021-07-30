@@ -6,6 +6,7 @@ const API_CONFIG = {
 }
 
 const WINDOW_WIDTH = window.innerWidth;
+const WINDOW_HEIGHT = window.innerHeight;
 
 const CAMPAIGNS = [
     {
@@ -513,5 +514,6 @@ const CAMPAIGNS = [
 export {
     API_CONFIG,
     WINDOW_WIDTH,
+    WINDOW_HEIGHT,
     CAMPAIGNS,
 };
