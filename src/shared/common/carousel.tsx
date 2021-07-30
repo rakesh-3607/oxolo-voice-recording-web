@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { Fragment, useRef } from "react";
 import Slider, { Settings } from "react-slick";
 
 import "slick-carousel/slick/slick.css";
@@ -24,7 +24,7 @@ const Carousel = (props: CarouselProps) => {
     const settings: Settings = {
         className: "center",
         centerMode: true,
-        initialSlide: 0,
+        initialSlide: props.initialSlide || 0,
         centerPadding: '400px',
         slidesToShow: 1,
         speed: 500,
@@ -68,18 +68,16 @@ const Carousel = (props: CarouselProps) => {
     };
 
 
-    const renderData = () => {
-        return props.slideData.map((data: number | string, index: number) => {
-            return (
-                <>
-                    <div key={index} className="slide">
-                        <div>{data}</div>
-                    </div>
-                    <div className="blur-overlay"></div>
-                </>
-            )
-        })
-    }
+    const renderData = () => props.slideData.map((data: number | string, index: number) => {
+        return (
+            <Fragment key={index}>
+                <div className="slide">
+                    <div>{data}</div>
+                </div>
+                <div className="blur-overlay"></div>
+            </Fragment>
+        );
+    });
 
 
     return (
@@ -94,13 +92,13 @@ const Carousel = (props: CarouselProps) => {
 const handleSubmit = (props: SubmitButtonProps) => {
     props.handleSubmit()
     sliderRef.slickNext()
-}
+};
 
 const SubmitButton = (props: SubmitButtonProps) => {
     return (
         <button className="submit-button" disabled={props.disabled} onClick={() => handleSubmit(props)}>Submit</button>
     )
-}
+};
 
 export {
     Carousel,

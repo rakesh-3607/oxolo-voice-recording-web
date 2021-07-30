@@ -311,7 +311,10 @@ class Campaign extends Component<Props> {
                         : <p> Click < Mic width="20" height="20" color="#2E8EFF" /> then read the sentence aloud</p>
                     }
                 </div>
-                <Carousel slideData={campaignData.map((ele: Sentence, index: number) => ele.sentence)} initialSlide={currentCampaignIndex} />
+                <Carousel
+                    slideData={campaignData.map((ele: Sentence, index: number) => ele.sentence)}
+                    initialSlide={currentCampaignIndex}
+                />
                 <div className="record-wrapper">
                     <Lottie
                         options={micOption}
