@@ -333,65 +333,68 @@ class Campaign extends Component<Props> {
                     slideData={campaignData.map((ele: Sentence, index: number) => ele.sentence)}
                     initialSlide={currentCampaignIndex}
                 />
-                <div className="record-wrapper">
-                    <Lottie
-                        options={micOption}
-                        height={lottieScale.height}
-                        style={{ transition: '0.2s all ease-in-out', opacity: ((isRecording || reRecording) ? '0.5' : '0') }}
-                        width={lottieScale.width}
-                        isStopped={!isRecording && !reRecording}
-                        isPaused={false}
-                    />
-                    <div className="record-button-wrapper">
-                        {!recordedAudio && (
-                            <div className="record-button">
-                                <button title={isRecording ? 'Stop' : 'Record'} disabled={!!recordedAudio} onClick={() => !recordedAudio && this.handleRecordToggle('isRecording')}>
-                                    {isRecording
-                                        ? <StopIcon width="30" height="30" color="#2E8EFF" />
-                                        : <Mic width="30" height="30" color="#2E8EFF" />}
-                                </button>
-                                <div className="record-button-bg"></div>
-                            </div>
-                        )}
-                        {(!!recordedAudio && !isRecording && !reRecording) && (
-                            <>
-                                <audio controls id="recorded-audio" ref={(ele) => this.audioRef = ele} autoPlay={false} /* onEnded={() => this.handleAudioPlay('stop')} */ onEnded={() => this.toggleAudioPlay(false)}>
-                                    <source src={recordedAudio} /* type="audio/ogg" */ />
-                                    {/* <source src="horse.mp3" type="audio/mpeg" /> */}
-                                    Your browser does not support the audio tag.
-                                </audio>
-                                {/* <button className="record-button" onClick={() => this.handleAudioPlay(['pause', 'stop'].includes(playerStatus) ? 'play' : 'pause')}>{['pause', 'stop'].includes(playerStatus) ? <PlayIcon width="30" height="30" color="#2E8EFF" /> : <PauseIcon width="30" height="30" color="#2E8EFF" />}</button>
+                {currentCampaignIndex < 100 && (
+                    <>
+                        <div className="record-wrapper">
+                            <Lottie
+                                options={micOption}
+                                height={lottieScale.height}
+                                style={{ transition: '0.2s all ease-in-out', opacity: ((isRecording || reRecording) ? '0.5' : '0') }}
+                                width={lottieScale.width}
+                                isStopped={!isRecording && !reRecording}
+                                isPaused={false}
+                            />
+                            <div className="record-button-wrapper">
+                                {!recordedAudio && (
+                                    <div className="record-button">
+                                        <button title={isRecording ? 'Stop' : 'Record'} disabled={!!recordedAudio} onClick={() => !recordedAudio && this.handleRecordToggle('isRecording')}>
+                                            {isRecording
+                                                ? <StopIcon width="30" height="30" color="#2E8EFF" />
+                                                : <Mic width="30" height="30" color="#2E8EFF" />}
+                                        </button>
+                                        <div className="record-button-bg"></div>
+                                    </div>
+                                )}
+                                {(!!recordedAudio && !isRecording && !reRecording) && (
+                                    <>
+                                        <audio controls id="recorded-audio" ref={(ele) => this.audioRef = ele} autoPlay={false} /* onEnded={() => this.handleAudioPlay('stop')} */ onEnded={() => this.toggleAudioPlay(false)}>
+                                            <source src={recordedAudio} /* type="audio/ogg" */ />
+                                            {/* <source src="horse.mp3" type="audio/mpeg" /> */}
+                                            Your browser does not support the audio tag.
+                                        </audio>
+                                        {/* <button className="record-button" onClick={() => this.handleAudioPlay(['pause', 'stop'].includes(playerStatus) ? 'play' : 'pause')}>{['pause', 'stop'].includes(playerStatus) ? <PlayIcon width="30" height="30" color="#2E8EFF" /> : <PauseIcon width="30" height="30" color="#2E8EFF" />}</button>
                                 {['play', 'pause'].includes(playerStatus) && <button className="record-button" onClick={() => this.handleAudioPlay('stop')}><StopIcon width="30" height="30" color="#2E8EFF" /></button>} */}
-                                <div className="record-button">
-                                    <button title={isPlaying ? 'Stop' : 'Play'} onClick={() => this.toggleAudioPlay(!isPlaying)}>
-                                        {isPlaying
-                                            ? <StopIcon width="30" height="30" color="#2E8EFF" />
-                                            : <PlayIcon width="40" height="40" color="#2E8EFF" />}
-                                    </button>
-                                    <div className="record-button-bg"></div>
-                                </div>
-                                {/* {['play', 'pause'].includes(playerStatus) && <button className="record-button" onClick={() => this.handleAudioPlay('stop')}><StopIcon width="30" height="30" color="#2E8EFF" /></button>} */}
-                            </>
-                        )}
-                        {!!recordedAudio &&
-                            (
-                                <div className="record-button">
-                                    <button
-                                        disabled={!recordedAudio}
-                                        title={reRecording ? 'Stop' : (recordedAudio ? 'Re-record' : 'Record')}
-                                        onClick={() => !!recordedAudio && this.handleRecordToggle('reRecording')}>
-                                        {reRecording
-                                            ? <StopIcon width="30" height="30" color="#2E8EFF" />
-                                            : (recordedAudio
-                                                ? <ReRecord width="30" height="30" color="#2E8EFF" />
-                                                : <Mic width="30" height="30" color="#2E8EFF" />)}
-                                    </button>
-                                    <div className="record-button-bg"></div>
-                                </div>
-                            )}
-                    </div>
-                </div>
-                <SubmitButton disabled={!recordedAudio || reRecording || isRecording} handleSubmit={() => (recordedAudio || !reRecording || !isRecording) && this.handleSubmit()} />
+                                        <div className="record-button">
+                                            <button title={isPlaying ? 'Stop' : 'Play'} onClick={() => this.toggleAudioPlay(!isPlaying)}>
+                                                {isPlaying
+                                                    ? <StopIcon width="30" height="30" color="#2E8EFF" />
+                                                    : <PlayIcon width="40" height="40" color="#2E8EFF" />}
+                                            </button>
+                                            <div className="record-button-bg"></div>
+                                        </div>
+                                        {/* {['play', 'pause'].includes(playerStatus) && <button className="record-button" onClick={() => this.handleAudioPlay('stop')}><StopIcon width="30" height="30" color="#2E8EFF" /></button>} */}
+                                    </>
+                                )}
+                                {!!recordedAudio &&
+                                    (
+                                        <div className="record-button">
+                                            <button
+                                                disabled={!recordedAudio}
+                                                title={reRecording ? 'Stop' : (recordedAudio ? 'Re-record' : 'Record')}
+                                                onClick={() => !!recordedAudio && this.handleRecordToggle('reRecording')}>
+                                                {reRecording
+                                                    ? <StopIcon width="30" height="30" color="#2E8EFF" />
+                                                    : (recordedAudio
+                                                        ? <ReRecord width="30" height="30" color="#2E8EFF" />
+                                                        : <Mic width="30" height="30" color="#2E8EFF" />)}
+                                            </button>
+                                            <div className="record-button-bg"></div>
+                                        </div>
+                                    )}
+                            </div>
+                        </div>
+                        <SubmitButton disabled={!recordedAudio || reRecording || isRecording} handleSubmit={() => (recordedAudio || !reRecording || !isRecording) && this.handleSubmit()} /></>
+                )}
             </div>
         )
     }

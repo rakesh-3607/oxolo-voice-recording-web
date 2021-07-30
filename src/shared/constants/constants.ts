@@ -508,6 +508,11 @@ const CAMPAIGNS = [
         "sentenceId": "b5b6f5fe-1a13-4173-b429-050af6649f98",
         "code": "sent_0091",
         "sentence": "My name is Ace Ventura."
+    },
+    {
+        "sentenceId": "b5b6f5fe-1a13-4173-b429-050af6649f98",
+        "code": "sent_0101",
+        "sentence": "Thank you for supporting us to record the voices."
     }
 ];
 
