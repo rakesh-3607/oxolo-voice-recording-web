@@ -104,7 +104,9 @@ const Carousel = (props: CarouselProps) => {
 
 const handleSubmit = (props: SubmitButtonProps) => {
     props.handleSubmit()
-    sliderRef.slickNext()
+    setTimeout(() => {
+        sliderRef.slickNext()
+    }, 1700);
 };
 
 const SubmitButton = (props: SubmitButtonProps) => {

@@ -220,11 +220,12 @@ class Campaign extends Component<Props> {
         }, 1500);
         setTimeout(() => {
             // document.body.removeChild(SubmitButton)
-            this.setState({ recordedAudio: '', currentCampaignIndex: this.state.currentCampaignIndex + 1 }, () => {
-                localStorage.setItem("currentCampaignIndex", (this.state.currentCampaignIndex).toString())
-                this.getUploadCredentials()
-            })
+            this.setState({ recordedAudio: '' })
         }, 1700);
+        this.setState({ currentCampaignIndex: this.state.currentCampaignIndex + 1 }, () => {
+            localStorage.setItem("currentCampaignIndex", (this.state.currentCampaignIndex).toString())
+            this.getUploadCredentials()
+        })
 
     }
 
