@@ -160,7 +160,7 @@ class Campaign extends Component<Props> {
         ensureMediaPermissions()
             .then((res: any) => {
                 const value = operation === 'isRecording' ? !this.state.isRecording : !this.state.reRecording;
-                this.setState({ [operation]: value, playerStatus: 'stop', isPlaying: false }, () => {
+                this.setState({ [operation]: value, playerStatus: 'stop', isPlaying: false, recordError: { isError: false, message: '' } }, () => {
                     if (value) {
                         this.handleStartRecording()
                     } else {
