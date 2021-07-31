@@ -4,25 +4,89 @@
     align-items: center;
 }
 
+.gradient-background {
+    z-index: -1;
+    filter: blur(7.6px);
+    transition: opacity 0.2s linear;
+    will-change: opacity;
+    position: absolute;
+    background: $submit-button-background-webkit-gradient;
+    background: $submit-button-background-gradient;
+}
+
 
 .submit-button {
-    padding: 10px 20px;
-    margin: 20px 0;
-    background: $primary-color;
-    border: 2px solid $primary-color;
-    border-radius: 25px;
-    cursor: pointer !important;
-    transition: 0.2s all ease-in-out;
-    color: $white-color;
+    width: 120px;
+    height: 50px;
 
-    &:hover {
-        transform: scale(1.1);
-        box-shadow: 0 3px 15px rgba(122, 122, 122, 0.733);
+    &>button {
+        font-family: 'ZillaSlab';
+        letter-spacing: 1px;
+        color: #2e8eff;
+        font-size: 18px;
+        // padding: 10px 20px !important;
+    }
+
+    // margin-top: 20px;
+    // background: $white-color;
+    // // font-weight: bold;
+    // border: none;
+    // border-radius: 25px;
+    // cursor: pointer !important;
+    // transition: 0.1s all ease-in-out;
+
+
+    // &:hover {
+    //     transform: scale(1.1);
+    //     box-shadow: 0 3px 15px rgba(122, 122, 122, 0.733);
+    // }
+}
+
+.pending {
+    font-size: 0;
+    width: 50px;
+    height: 50px;
+    padding: 0 !important;
+    border-radius: 50%;
+    border-left-color: transparent;
+    animation: rotate .4s ease .5s infinite;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes bounce {
+    0% {
+        transform: scale(.9);
+    }
+}
+
+.success {
+    position: relative;
+    padding: 0 !important;
+    background-color: #fff;
+    animation: bounce .3s ease-in;
+
+    &:before {
+        content: '';
+        position: absolute;
+        left: calc(50% - 13px);
+        right: 0;
+        top: calc(50% - 13px);
+        margin: 0 auto;
+        width: 3rem;
+        height: 3rem;
+        background: url('https://image.flaticon.com/icons/svg/1828/1828643.svg') no-repeat;
+        background-size: 26px 26px;
     }
 }
 
 .record-instruction {
     padding: 0 20px;
+    @extend .align-content-center;
 
     p {
         text-align: center;
@@ -30,11 +94,94 @@
         margin: 0;
         font-size: 18px;
         word-wrap: break-word;
+        transition: 0.2s all ease-in-out;
     }
 }
 
 .danger {
     color: $light-red;
+}
+
+.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.record-button {
+    width: 80px;
+    height: 80px;
+}
+
+.submit-button,
+.record-button {
+    position: relative;
+    transition: 0.2s all ease-in-out;
+    margin: 0 20px;
+    display: flex;
+    outline: none;
+    justify-content: center;
+    align-items: center;
+
+    &:focus,
+    &:focus-visible {
+        outline: none;
+    }
+
+    // padding: 5px;
+
+    &>button {
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        outline: none;
+        height: 100%;
+        padding: 0;
+        background-color: #ffffff;
+        border: none;
+        border-radius: 100px;
+        cursor: pointer;
+        transition: 0.2s all ease-in-out;
+
+        &:focus,
+        &:focus-visible {
+            outline: none;
+        }
+
+        // box-shadow: 0 2px 5px rgba(179, 179, 179, 0.377);
+        &:hover {
+            background-color: $white-color !important;
+            // box-shadow: 0 3px 15px rgba(122, 122, 122, 0.733);
+            transform: scale(1.1);
+
+        }
+    }
+
+    &>button[title="Re-record"] {
+        svg {
+            margin-top: 1px;
+        }
+    }
+
+    &>button[title="Play"] {
+        svg {
+            margin-left: 3px;
+        }
+    }
+
+    .record-button-bg {
+        height: 110%;
+        width: 110%;
+        opacity: 0.5;
+        border-radius: 100px;
+        @extend .gradient-background;
+    }
+
+    &:hover {
+        .record-button-bg {
+            opacity: 1;
+        }
+    }
 }
 
 .record-wrapper {
@@ -57,78 +204,6 @@
         audio {
             display: none;
         }
-
-        .record-button {
-            position: relative;
-            transition: 0.2s all ease-in-out;
-            margin: 0 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 80px;
-            height: 80px;
-            // padding: 5px;
-
-            &>button {
-                display: flex !important;
-                justify-content: center;
-                align-items: center;
-                width: 100%;
-                height: 100%;
-                padding: 0;
-                background-color: #ffffff;
-                border: none;
-                border-radius: 100px;
-                cursor: pointer;
-                transition: 0.2s all ease-in-out;
-
-
-                // box-shadow: 0 2px 5px rgba(179, 179, 179, 0.377);
-                &:hover {
-                    background-color: $white-color !important;
-                    // box-shadow: 0 3px 15px rgba(122, 122, 122, 0.733);
-                    transform: scale(1.1);
-
-                }
-            }
-
-            &>button[title="Re-record"] {
-                svg {
-                    margin-top: 1px;
-                }
-            }
-
-            &>button[title="Play"] {
-                svg {
-                    margin-left: 3px;
-                }
-            }
-
-            .record-button-bg {
-                height: 105%;
-                width: 105%;
-                opacity: 0.5;
-                border-radius: 100px;
-                z-index: -1;
-                filter: blur(7.6px);
-                transition: opacity 0.2s linear;
-                will-change: opacity;
-                position: absolute;
-                background: $submit-button-background-webkit-gradient;
-                background: $submit-button-background-gradient;
-
-            }
-
-            &:hover {
-                .record-button-bg {
-                    opacity: 1;
-                }
-            }
-
-
-        }
-
-
     }
 }
 
@@ -171,39 +246,103 @@
 
     .slick-track {
         @extend .align-content-center;
+        transition: 0.5s all ease-in-out;
     }
 
     .slick-active {
         opacity: 1 !important;
+        transition: 0.5s all ease-in-out;
+        box-shadow: none !important;
+
+        &>div {
+            position: relative;
+            width: 100%;
+            background-color: $white-color;
+            border-radius: 8px;
+            transition: 0.5s all ease-in-out;
+
+            &::before {
+                content: '';
+                transition: 0.5s all ease-in-out;
+                height: calc(100% + 6px);
+                width: calc(100% + 6px);
+                opacity: 0.5;
+                border-radius: 8px;
+                top: -3px;
+                left: -3px;
+                @extend .gradient-background;
+            }
+        }
 
         .blur-overlay {
             backdrop-filter: none !important;
         }
     }
 
+
     .slick-slide {
         opacity: 0.5;
         transition: 0.2s all ease-in-out;
-        padding: 10px;
+        // padding: 10px;
         border-radius: 8px;
         box-shadow: 0 0 15px rgba(182, 182, 182, 0.603);
         margin: 5px 120px;
         background-color: $white-color;
         user-select: none;
 
+
         &>div {
             position: relative;
             width: 100%;
+            height: inherit;
+            background-color: $white-color;
+            border-radius: 8px;
+            // transition: 0.5s all ease-in-out;
+
+            // &::before {
+            //     content: '';
+            //     height: calc(100% + 20px);
+            //     width: calc(100% + 20px);
+            //     opacity: 0.5;
+            //     border-radius: 8px;
+            //     top: -10px;
+            //     left: -10px;
+            //     @extend .gradient-background;
+            // }
         }
+
 
         .slide {
             @extend .align-content-center;
             min-height: 350px;
+            position: relative;
             width: 100%;
 
             &:focus,
             &:focus-visible {
                 outline: none !important;
+            }
+
+            .visualizer {
+                position: absolute;
+                padding: 0;
+                height: 50%;
+                width: 100%;
+                bottom: 0;
+                border-radius: 8px;
+                opacity: 0.3;
+                transition: 0.5 all ease-in-out;
+
+                &>div {
+                    padding: 0;
+                }
+            }
+
+            .hide {
+                height: 0;
+                opacity: 0;
+                overflow: 0;
+                visibility: hidden;
             }
 
             div {
@@ -221,7 +360,7 @@
                 line-height: 1.8;
                 padding: 30px 40px;
                 border: none;
-                background-color: $white-color;
+                // background-color: $white-color;
             }
 
         }
@@ -236,150 +375,6 @@
             left: 0;
             border-radius: 5px;
             overflow: hidden;
-        }
-    }
-}
-
-@media (min-width : 1024px) and (max-width : 1920px) {
-    .slick-slide {
-        margin: 5px 80px !important;
-
-    }
-}
-
-@media (min-width : 1280px) and (max-height : 720px) {
-    .slick-slide {
-        margin: 5px 80px !important;
-
-        .slide {
-            min-height: 300px !important;
-        }
-    }
-}
-
-@media (min-width : 1024px) and (max-width : 1224px) {
-    .slick-slide {
-        margin: 5px 80px !important;
-
-        .slide {
-            min-height: 300px !important;
-        }
-    }
-}
-
-@media (min-width : 768px) and (max-width : 1024px) {
-    .slick-slide {
-        margin: 5px 50px !important;
-    }
-}
-
-@media (min-width : 480px) and (max-width : 768px) {
-    .slick-slide {
-        margin: 5px 50px !important;
-
-        .slide {
-            div {
-                font-size: 22px;
-            }
-        }
-    }
-}
-
-
-@media (max-width : 480px) {
-    .record-instruction {
-        p {
-            font-size: 18px !important;
-            height: auto;
-            padding: 0;
-            margin: 0;
-        }
-    }
-
-    .slider-wrapper {
-        height: auto;
-        margin-top: 30px !important;
-
-        .slick-slide {
-            margin: 5px 30px !important;
-
-            .slide {
-                min-height: 250px !important;
-
-                div {
-                    font-size: 18px;
-                }
-            }
-        }
-    }
-}
-
-@media (max-width : 360px) {
-    .record-instruction {
-        p {
-            font-size: 14px !important;
-            height: auto;
-            padding: 0;
-            margin: 0;
-        }
-    }
-
-    .slider-wrapper {
-        height: auto;
-        margin-top: 5px !important;
-
-        .slick-slide {
-            margin: 5px 25px !important;
-
-            .slide {
-                min-height: 230px !important;
-
-                div {
-                    font-size: 18px;
-                }
-            }
-        }
-    }
-
-    .record-button {
-        height: 60px !important;
-        width: 60px !important;
-
-        &>button {
-            svg {
-                height: 25px;
-                width: 25px;
-            }
-        }
-    }
-}
-
-@media (max-height : 768px) {
-    .slider-wrapper {
-        margin-top: 25px;
-    }
-}
-
-@media (max-width: 768px) {
-
-    .record-wrapper {
-        width: 80%;
-        margin: 0;
-
-        .record-button-wrapper {
-            .record-button {
-                &:hover {
-                    transform: none !important;
-                }
-            }
-        }
-    }
-
-    .submit-button {
-        margin-top: 10px;
-
-        &:hover {
-            transform: none !important;
         }
     }
 }

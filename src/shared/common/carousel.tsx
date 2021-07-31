@@ -1,8 +1,10 @@
 import { Fragment, useRef } from "react";
 import Slider, { Settings } from "react-slick";
+import animationData from '../../assets/animations/particlesCirtualizer.json'
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Lottie from "react-lottie";
 
 interface CarouselProps {
     slideData: Array<number | string>;
@@ -73,6 +75,18 @@ const Carousel = (props: CarouselProps) => {
             <Fragment key={index}>
                 <div className="slide">
                     <div>{data}</div>
+                    {/* {props.initialSlide === index && <div className={`visualizer`}>
+                        <Lottie
+                            options={{
+                                loop: true,
+                                autoplay: false,
+                                animationData,
+                                rendererSettings: {
+                                    preserveAspectRatio: 'xMidYMid slice'
+                                }
+                            }}
+                        />
+                    </div>} */}
                 </div>
                 <div className="blur-overlay"></div>
             </Fragment>
@@ -95,7 +109,10 @@ const handleSubmit = (props: SubmitButtonProps) => {
 
 const SubmitButton = (props: SubmitButtonProps) => {
     return (
-        <button className="submit-button" disabled={props.disabled} onClick={() => handleSubmit(props)}>Submit</button>
+        <div className={`submit-button ${props.disabled ? 'disabled' : ''}`}>
+            <button disabled={props.disabled} onClick={() => !props.disabled && handleSubmit(props)}>Submit</button>
+            <div className="record-button-bg"></div>
+        </div>
     );
 };
 

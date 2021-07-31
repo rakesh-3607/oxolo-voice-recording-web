@@ -1,3 +1,5 @@
+import { WINDOW_WIDTH } from "../constants/constants";
+
 export const ensureMediaPermissions = () => {
     return navigator.mediaDevices.enumerateDevices().then((devices) => {
         return devices.every((device) => {
@@ -49,7 +51,7 @@ export const getLottieScale = (resolution: string) => {
                 lottieScale = { height: 200, width: 400 }
                 break;
             default:
-                lottieScale = { height: 130, width: 300 }
+                lottieScale = { height: WINDOW_WIDTH <= 768 ? 130 : 220, width: WINDOW_WIDTH <= 768 ? 300 : 400 }
                 break;
         }
         resolve(lottieScale);

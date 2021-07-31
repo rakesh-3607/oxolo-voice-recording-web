@@ -206,15 +206,22 @@ class Campaign extends Component<Props> {
     }
 
     handleSubmit = () => {
-        if (!this.recorder || !this.recorder.getBlob() || this.recorder.getBlob().size <= 50000) {
-            this.setState({ recordedAudio: '', recordError: { isError: true, message: 'The recording was too short, please record again.' } })
-            return;
-        } else {
-            this.setState({ currentCampaignIndex: this.state.currentCampaignIndex + 1, recordedAudio: '', recordError: { isError: false, message: '' } }, () => {
-                localStorage.setItem("currentCampaignIndex", (this.state.currentCampaignIndex).toString())
-                this.getUploadCredentials()
-            })
-        }
+        var SubmitButton = document.getElementsByClassName("submit-button")[0];
+        SubmitButton.classList.add("pending");
+
+        setTimeout(function () {
+            SubmitButton.classList.add("success");
+        }, 1000);
+
+        setTimeout(function () {
+            SubmitButton.classList.remove("pending");
+            SubmitButton.classList.remove("success");
+        }, 1500);
+
+        this.setState({ currentCampaignIndex: this.state.currentCampaignIndex + 1, recordedAudio: '' }, () => {
+            localStorage.setItem("currentCampaignIndex", (this.state.currentCampaignIndex).toString())
+            this.getUploadCredentials()
+        })
     }
 
     getUploadCredentials = () => {
@@ -352,6 +359,7 @@ class Campaign extends Component<Props> {
 
     render() {
         const { isRecording, micOption, micPermissionBlocked, recordError, lottieScale, isPlaying, campaignData, recordedAudio, reRecording, playerStatus, currentCampaignIndex } = this.state;
+        const disableSubmitButton = !recordedAudio || reRecording || isRecording || isPlaying;
         return (
             <div className="speak-slider-wrapper">
                 <div className="record-instruction">
@@ -424,7 +432,8 @@ class Campaign extends Component<Props> {
                                     )}
                             </div>
                         </div>
-                        <SubmitButton disabled={!recordedAudio || reRecording || isRecording} handleSubmit={() => (recordedAudio || !reRecording || !isRecording) && this.handleSubmit()} /></>
+                        {!disableSubmitButton && <SubmitButton disabled={disableSubmitButton} handleSubmit={() => (!disableSubmitButton) && this.handleSubmit()} />}
+                    </>
                 )}
             </div>
         )
