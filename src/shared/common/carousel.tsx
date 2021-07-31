@@ -109,7 +109,7 @@ const handleSubmit = (props: SubmitButtonProps) => {
 
 const SubmitButton = (props: SubmitButtonProps) => {
     return (
-        <div className={`submit-button ${props.disabled ? 'disabled' : ''}`}>
+        <div className={`submit-button`}>
             <button disabled={props.disabled} onClick={() => !props.disabled && handleSubmit(props)}>Submit</button>
             <div className="record-button-bg"></div>
         </div>

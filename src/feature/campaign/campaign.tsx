@@ -214,11 +214,16 @@ class Campaign extends Component<Props> {
         }, 1000);
 
         setTimeout(function () {
-            SubmitButton.classList.remove("pending");
-            SubmitButton.classList.remove("success");
+            // SubmitButton.classList.remove("pending");
+            // SubmitButton.classList.remove("success");
+            SubmitButton.classList.add("hide");
         }, 1500);
+        setTimeout(() => {
+            // document.body.removeChild(SubmitButton)
+            this.setState({ recordedAudio: '' })
+        }, 1700);
 
-        this.setState({ currentCampaignIndex: this.state.currentCampaignIndex + 1, recordedAudio: '' }, () => {
+        this.setState({ currentCampaignIndex: this.state.currentCampaignIndex + 1 }, () => {
             localStorage.setItem("currentCampaignIndex", (this.state.currentCampaignIndex).toString())
             this.getUploadCredentials()
         })
