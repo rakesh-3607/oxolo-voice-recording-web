@@ -1,6 +1,6 @@
 import { Fragment, useRef } from "react";
 import Slider, { Settings } from "react-slick";
-import animationData from '../../assets/animations/particlesCirtualizer.json'
+import animationData from '../../assets/animations/ThankYouAnimation.json'
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -75,19 +75,22 @@ const Carousel = (props: CarouselProps) => {
             <Fragment key={index}>
                 <div className="slide">
                     <div>{data}</div>
-                    {/* {props.initialSlide === index && <div className={`visualizer`}>
-                        <Lottie
-                            options={{
-                                loop: true,
-                                autoplay: false,
-                                animationData,
-                                rendererSettings: {
-                                    preserveAspectRatio: 'xMidYMid slice'
-                                }
-                            }}
-                        />
-                    </div>} */}
                 </div>
+                {(props.initialSlide === index && index === 100) && <div className={`visualizer`}>
+                    <Lottie
+                        height="100%"
+                        width="100%"
+                        options={{
+                            loop: true,
+                            autoplay: true,
+                            animationData,
+                            rendererSettings: {
+                                preserveAspectRatio: 'xMidYMid slice'
+                            }
+                        }}
+                    />
+                </div>
+                }
                 <div className="blur-overlay"></div>
             </Fragment>
         );

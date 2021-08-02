@@ -370,7 +370,7 @@ class Campaign extends Component<Props> {
                 <div className="record-instruction">
                     {(micPermissionBlocked || recordError.isError)
                         ? <p className="danger"> {recordError.isError ? recordError.message : 'You must allow microphone access.'}</p>
-                        : <p> {(isRecording || reRecording || !recordedAudio) ? 'Click ' : 'Great! '} {(isRecording || reRecording) ? < StopIcon width="15" height="15" color="#2E8EFF" /> : < Mic width="18" height="18" color="#2E8EFF" />}{(isRecording || reRecording) ? ' , when you done.' : (recordedAudio ? ' , record your next clip or re-record current clip.' : ', then read the sentence aloud')}</p>
+                        : <p> {(isRecording || reRecording || !recordedAudio) ? 'Click ' : 'Great! Submit your recorded clip, or click '} {(isRecording || reRecording) ? < StopIcon width="15" height="15" color="#2E8EFF" /> : (recordedAudio ? < ReRecord width="15" height="15" color="#2E8EFF" /> : < Mic width="18" height="18" color="#2E8EFF" />)}{(isRecording || reRecording) ? ' , when you done.' : (recordedAudio ? ' to re-record current clip.' : ', then read the sentence aloud')}</p>
                     }
                 </div>
                 <Carousel

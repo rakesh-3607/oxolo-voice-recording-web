@@ -344,25 +344,11 @@
             min-height: 350px;
             position: relative;
             width: 100%;
+            z-index: 1;
 
             &:focus,
             &:focus-visible {
                 outline: none !important;
-            }
-
-            .visualizer {
-                position: absolute;
-                padding: 0;
-                height: 50%;
-                width: 100%;
-                bottom: 0;
-                border-radius: 8px;
-                opacity: 0.3;
-                transition: 0.5 all ease-in-out;
-
-                &>div {
-                    padding: 0;
-                }
             }
 
             div {
@@ -374,6 +360,7 @@
                 font-size: 30px;
                 font-family: 'OpenSans';
                 align-items: baseline;
+                // backdrop-filter: blur(3px);
                 max-height: 250px;
                 overflow: hidden;
                 letter-spacing: 1.5px;
@@ -383,6 +370,21 @@
                 // background-color: $white-color;
             }
 
+        }
+
+        .visualizer {
+            position: absolute;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            border-radius: 8px;
+            opacity: 0.3;
+            transition: 0.5s all ease-in-out;
+
+            &>div {
+                padding: 0;
+            }
         }
 
         .blur-overlay {
