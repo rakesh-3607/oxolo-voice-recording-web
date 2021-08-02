@@ -49,13 +49,13 @@
         width: 52px !important;
         height: 50px !important;
         border-radius: 50%;
-        animation: rotate 0.4s ease .5s infinite;
+        animation: rotate 0.7s ease-in-out .25s infinite;
         border: 2px solid #2E8EFF !important;
         border-left-color: transparent !important;
     }
 
     .record-button-bg {
-        opacity: 1 !important;
+        opacity: 0.8 !important;
     }
 
     width: 55px !important;
@@ -73,21 +73,25 @@
 
 @keyframes bounce {
     0% {
-        transform: scale(.9);
+        transform: scale(.5);
     }
 }
 
 .success {
     .record-button-bg {
-        width: 130% !important;
-        height: 130% !important;
+        width: 120% !important;
+        height: 120% !important;
+        animation: bounce .3s ease-in-out;
     }
+
+    // animation: bounce .3s ease-in-out;
+
 
     &>button {
         position: relative;
         padding: 0 !important;
         background-color: #fff;
-        animation: bounce .3s ease-in;
+        animation: bounce .3s ease-in-out;
 
         &:before {
             content: '';
@@ -142,7 +146,7 @@
 .submit-button,
 .record-button {
     position: relative;
-    transition: 0.2s all ease-in-out;
+    transition: 0.3s all ease-in-out;
     margin: 0 20px;
     display: flex;
     outline: none;
