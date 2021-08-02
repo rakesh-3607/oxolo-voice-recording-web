@@ -80,6 +80,7 @@ const Carousel = (props: CarouselProps) => {
                     <Lottie
                         height="100%"
                         width="100%"
+                        speed={0.75}
                         options={{
                             loop: true,
                             autoplay: true,
