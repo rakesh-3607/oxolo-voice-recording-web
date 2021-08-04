@@ -351,7 +351,7 @@ class Campaign extends Component<Props> {
 
     handleStopRecording = () => {
         this.recorder.stopRecording(async (data: any) => {
-            if (!this.recorder || !this.recorder.getBlob() || this.recorder.getBlob().size <= 50000) {
+            if (!this.recorder || !this.recorder.getBlob() || this.recorder.getBlob().size <= 10000) {
                 this.setState({ recordedAudio: '', recordError: { isError: true, message: 'The recording was too short, please record again.' } })
                 return;
             } else {
