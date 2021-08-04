@@ -225,7 +225,6 @@ class Campaign extends Component<Props> {
                 this.getUploadCredentials()
             })
         }, 1700);
-
     }
 
     getUploadCredentials = () => {
