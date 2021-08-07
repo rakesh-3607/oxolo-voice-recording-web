@@ -1,9 +1,11 @@
 header {
+    max-height: 15vh;
+
     nav {
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        padding: 60px 100px !important;
+        padding: 55px 100px !important;
         height: auto;
         line-height: normal;
         background-color: transparent !important;

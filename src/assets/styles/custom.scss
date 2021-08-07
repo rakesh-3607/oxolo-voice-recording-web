@@ -15,41 +15,13 @@
     background: $submit-button-background-gradient;
 }
 
-
-.submit-button {
-    width: 120px;
-    height: 50px;
-
-    &>button {
-        font-family: 'ZillaSlab';
-        letter-spacing: 1px;
-        color: #2e8eff;
-        font-size: 18px;
-        // padding: 10px 20px !important;
-    }
-
-    // margin-top: 20px;
-    // background: $white-color;
-    // // font-weight: bold;
-    // border: none;
-    // border-radius: 25px;
-    // cursor: pointer !important;
-    // transition: 0.1s all ease-in-out;
-
-
-    // &:hover {
-    //     transform: scale(1.1);
-    //     box-shadow: 0 3px 15px rgba(122, 122, 122, 0.733);
-    // }
-}
-
 .pending {
     &>button {
-        font-size: 0;
+        font-size: 0 !important;
         padding: 0 !important;
-        width: 52px !important;
-        height: 50px !important;
-        border-radius: 50%;
+        width: 100% !important;
+        height: 95% !important;
+        border-radius: 50% !important;
         -webkit-animation: rotate 0.7s ease-in-out .25s infinite;
         animation: rotate 0.7s ease-in-out .25s infinite;
         border: 2px solid #2E8EFF !important;
@@ -57,13 +29,23 @@
     }
 
     .record-button-bg {
+        border-radius: 50% !important;
         opacity: 0.8 !important;
     }
 
-    width: 55px !important;
-    height: 50px !important;
+    width: 80px !important;
+    height: 80px !important;
     padding: 0 !important;
-    border-radius: 50%;
+    border-radius: 50% !important;
+
+    &:hover {
+        transform: none !important;
+
+        .record-button-bg {
+            border-radius: 100px !important;
+            opacity: 1;
+        }
+    }
 
 }
 
@@ -133,6 +115,7 @@
 
 .record-instruction {
     padding: 0 20px;
+    margin: 10px 0;
     @extend .align-content-center;
 
     p {
@@ -154,15 +137,42 @@
     cursor: not-allowed;
 }
 
+.submit-button {
+    width: 100px;
+    height: 100px;
+
+    &>button {
+        font-family: 'ZillaSlab';
+        letter-spacing: 1px;
+        color: #2e8eff;
+        font-size: 18px;
+        // padding: 10px 20px !important;
+    }
+
+    // margin-top: 20px;
+    // background: $white-color;
+    // // font-weight: bold;
+    // border: none;
+    // border-radius: 25px;
+    // cursor: pointer !important;
+    // transition: 0.1s all ease-in-out;
+
+
+    // &:hover {
+    //     transform: scale(1.1);
+    //     box-shadow: 0 3px 15px rgba(122, 122, 122, 0.733);
+    // }
+}
+
 .record-button {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
 }
 
 .submit-button,
 .record-button {
     position: relative;
-    transition: 0.3s all ease-in-out;
+    transition: 0.2s all ease-in-out;
     margin: 0 20px;
     display: flex;
     outline: none;
@@ -217,6 +227,7 @@
     }
 
     .record-button-bg {
+        transition: 0.2s all ease-in-out;
         height: 110%;
         width: 110%;
         opacity: 0.5;
@@ -225,10 +236,72 @@
     }
 
     &:hover {
+        // transform: translateY(-5px);
+
         .record-button-bg {
             opacity: 1;
         }
     }
+}
+
+.recording {
+    &>button {
+        border-radius: 100px !important;
+    }
+
+    .record-button-bg {
+        border-radius: 100px !important;
+    }
+
+    &:hover {
+        transform: none !important;
+
+        .record-button-bg {
+            border-radius: 100px !important;
+            opacity: 1;
+        }
+    }
+}
+
+.hide-recording-button {
+    width: 0 !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    visibility: hidden !important;
+    opacity: 0;
+    overflow: hidden;
+
+    &>button {
+        width: 0 !important;
+        height: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        visibility: hidden !important;
+        opacity: 0;
+        overflow: hidden;
+    }
+
+    .record-button-bg {
+        width: 0 !important;
+        height: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        visibility: hidden !important;
+        opacity: 0;
+        overflow: hidden;
+    }
+}
+
+.footer {
+    height: 200px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .record-wrapper {
@@ -257,8 +330,12 @@
 
 //--------------------------------------------Speak module----------------------------------------------------
 .speak-slider-wrapper {
-    @extend .align-content-center;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
     flex-direction: column;
+    // height: 85vh;
+    // overflow: auto;
 
     .btn {
         background-color: $Bright-Blue;
@@ -281,10 +358,9 @@
 //--------------------------------------------carousel css----------------------------------------------------
 
 .slider-wrapper {
-    // height: 450px;
+    // min-height: 40vh;
     width: 100%;
-    overflow: hidden !important;
-    margin-top: 50px;
+    // overflow: hidden !important;
 
     .slick-track,
     .slick-list {
@@ -331,6 +407,7 @@
         .blur-overlay {
             -webkit-backdrop-filter: none !important;
             backdrop-filter: none !important;
+            z-index: -1;
         }
     }
 
@@ -372,7 +449,7 @@
 
         .slide {
             @extend .align-content-center;
-            min-height: 350px;
+            min-height: 40vh;
             width: 100%;
             z-index: 1;
 
@@ -393,8 +470,8 @@
                 font-family: 'OpenSans';
                 align-items: baseline;
                 // backdrop-filter: blur(3px);
-                max-height: 250px;
-                overflow: hidden;
+                // max-height: 250px;
+                // overflow: hidden;
                 letter-spacing: 1.5px;
                 line-height: 1.8;
                 padding: 30px 40px;

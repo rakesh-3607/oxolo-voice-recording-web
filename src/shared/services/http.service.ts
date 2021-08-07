@@ -5,7 +5,7 @@ import isEmpty from 'lodash/isEmpty';
 // import AuthService from './auth.service';
 // import { getUrl } from 'shared/constants/constants';
 const axiosInstance = axios.create();
-const CancelToken = axios.CancelToken;
+// const CancelToken = axios.CancelToken;
 let cancel_req: any;
 
 const API_URL = `${process.env.REACT_APP_BASE_URL}`;

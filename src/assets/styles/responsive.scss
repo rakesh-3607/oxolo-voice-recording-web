@@ -10,7 +10,7 @@
         margin: 5px 80px !important;
 
         .slide {
-            min-height: 300px !important;
+            min-height: 35vh !important;
         }
     }
 }
@@ -20,7 +20,7 @@
         margin: 5px 80px !important;
 
         .slide {
-            min-height: 300px !important;
+            min-height: 35vh !important;
         }
     }
 }
@@ -62,7 +62,7 @@
             margin: 5px 30px !important;
 
             .slide {
-                min-height: 250px !important;
+                min-height: 30vh !important;
 
                 div {
                     font-size: 18px;
@@ -92,7 +92,7 @@
             margin: 5px 25px !important;
 
             .slide {
-                min-height: 230px !important;
+                min-height: 35vh !important;
 
                 div {
                     font-size: 18px;
@@ -102,8 +102,8 @@
     }
 
     .record-button {
-        height: 60px !important;
-        width: 60px !important;
+        // height: 60px !important;
+        // width: 60px !important;
 
         &>button {
             svg {
@@ -114,16 +114,16 @@
     }
 }
 
-@media (max-height : 768px) {
-    .slider-wrapper {
-        margin-top: 25px;
-    }
-}
+// @media (max-height : 768px) {
+//     .slider-wrapper {
+//         margin-top: 25px;
+//     }
+// }
 
 @media (max-width: 768px) {
 
     .record-wrapper {
-        width: 80%;
+        width: 100%;
         margin: 0;
 
         .record-button-wrapper {
@@ -136,7 +136,7 @@
     }
 
     .submit-button {
-        margin-top: 10px;
+        // margin-top: 10px;
 
         &:hover {
             transform: none !important;
