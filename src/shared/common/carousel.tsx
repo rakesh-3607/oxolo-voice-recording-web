@@ -12,6 +12,7 @@ interface CarouselProps {
 }
 
 interface SubmitButtonProps {
+    processing: boolean;
     disabled: boolean
     handleSubmit: () => void;
 }
@@ -81,6 +82,7 @@ const Carousel = (props: CarouselProps) => {
                         height="100%"
                         width="100%"
                         speed={0.75}
+                        isClickToPauseDisabled
                         options={{
                             loop: true,
                             autoplay: true,
@@ -116,7 +118,7 @@ const handleSubmit = (props: SubmitButtonProps) => {
 const SubmitButton = (props: SubmitButtonProps) => {
     return (
         <div className={`submit-button ${props.disabled ? 'hide-recording-button' : ''}`}>
-            <button disabled={props.disabled} onClick={() => !props.disabled && handleSubmit(props)}>Submit</button>
+            <button disabled={props.disabled} onClick={() => (!props.disabled && !props.processing) && handleSubmit(props)}>Submit</button>
             <div className="record-button-bg"></div>
         </div>
     );

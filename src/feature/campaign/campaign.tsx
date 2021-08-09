@@ -161,6 +161,8 @@ class Campaign extends Component<Props> {
     handleRecordToggle = (operation: string) => {
         ensureMediaPermissions()
             .then((res: any) => {
+                this.audioRef.pause()
+                this.audioRef.currentTime = 0;
                 const value = operation === 'isRecording' ? !this.state.isRecording : !this.state.reRecording;
                 this.setState({ [operation]: value, playerStatus: 'stop', isPlaying: false, recordError: { isError: false, message: '' } }, () => {
                     if (value) {
@@ -379,8 +381,7 @@ class Campaign extends Component<Props> {
                                 isPaused={false}
                             />
                             <div className="record-button-wrapper">
-                                {/* {!recordedAudio && ( */}
-                                <div className={`record-button ${(recordedAudio || isSubmitting) ? 'hide-recording-button' : ((isRecording || reRecording) ? 'recording' : '')}`}>
+                                <div className={`record-button ${(recordedAudio || isSubmitting) ? 'hide-recording-button' : ''}`}>
                                     <button title={isRecording ? 'Stop' : 'Record'} disabled={!!recordedAudio} onClick={() => !recordedAudio && this.handleRecordToggle('isRecording')}>
                                         {isRecording
                                             ? <StopIcon width="30" height="30" color="#2E8EFF" />
@@ -388,16 +389,12 @@ class Campaign extends Component<Props> {
                                     </button>
                                     <div className="record-button-bg"></div>
                                 </div>
-                                {/* )} */}
-                                {/* {(!!recordedAudio && !isRecording && !reRecording) && ( */}
                                 <>
                                     <audio controls id="recorded-audio" ref={(ele) => this.audioRef = ele} preload="auto" autoPlay={false} /* onEnded={() => this.handleAudioPlay('stop')} */ onEnded={() => this.toggleAudioPlay(false)}>
                                         <source src={recordedAudio} /* type="audio/ogg" */ />
                                         {/* <source src="horse.mp3" type="audio/mpeg" /> */}
                                         Your browser does not support the audio tag.
                                     </audio>
-                                    {/* <button className="record-button" onClick={() => this.handleAudioPlay(['pause', 'stop'].includes(playerStatus) ? 'play' : 'pause')}>{['pause', 'stop'].includes(playerStatus) ? <PlayIcon width="30" height="30" color="#2E8EFF" /> : <PauseIcon width="30" height="30" color="#2E8EFF" />}</button>
-                                {['play', 'pause'].includes(playerStatus) && <button className="record-button" onClick={() => this.handleAudioPlay('stop')}><StopIcon width="30" height="30" color="#2E8EFF" /></button>} */}
                                     <div className={`record-button ${(!recordedAudio || isRecording || reRecording || isSubmitting) ? 'hide-recording-button' : ''}`}>
                                         <button title={isPlaying ? 'Stop' : 'Play'} onClick={() => this.toggleAudioPlay(!isPlaying)}>
                                             {isPlaying
@@ -406,14 +403,9 @@ class Campaign extends Component<Props> {
                                         </button>
                                         <div className="record-button-bg"></div>
                                     </div>
-                                    {/* {['play', 'pause'].includes(playerStatus) && <button className="record-button" onClick={() => this.handleAudioPlay('stop')}><StopIcon width="30" height="30" color="#2E8EFF" /></button>} */}
                                 </>
-                                {/* )} */}
-                                {<SubmitButton disabled={disableSubmitButton} handleSubmit={() => (!disableSubmitButton) && this.handleSubmit()} />}
-                                {/* {!!recordedAudio && */}
-                                {/* ( */}
-                                {/* <div className={`record-button ${(isRecording || reRecording) ? 'recording' : ((!recordedAudio || isSubmitting) ? 'hide-recording-button' : '')}`}> */}
-                                <div className={`record-button ${(!recordedAudio || isSubmitting) ? 'hide-recording-button' : ((isRecording || reRecording) ? 'recording' : '')}`}>
+                                {<SubmitButton processing={isSubmitting} disabled={disableSubmitButton} handleSubmit={() => !disableSubmitButton && this.handleSubmit()} />}
+                                <div className={`record-button ${(!recordedAudio || isSubmitting) ? 'hide-recording-button' : ''}`}>
                                     <button
                                         disabled={!recordedAudio}
                                         title={reRecording ? 'Stop' : (recordedAudio ? 'Re-record' : 'Record')}
@@ -426,10 +418,8 @@ class Campaign extends Component<Props> {
                                     </button>
                                     <div className="record-button-bg"></div>
                                 </div>
-                                {/* )} */}
                             </div>
                         </div>
-
                     </div>
                 )}
             </div>
