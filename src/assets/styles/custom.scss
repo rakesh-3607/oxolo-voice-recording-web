@@ -494,3 +494,16 @@
         }
     }
 }
+
+//------------------------------------------------ progress-bar ------------------------------------------------------------//
+.progress-count {
+    position: absolute;
+    top: 15px;
+    right: 0;
+    padding: 15px;
+    border-radius: 10px 0 0 10px;
+    font-size: 30px;
+    color: $white-color;
+    background-color: $primary-color;
+    // font-family: 'ZillaSlab';    
+}

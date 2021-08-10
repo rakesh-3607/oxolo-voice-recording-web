@@ -354,11 +354,21 @@ class Campaign extends Component<Props> {
         })
     }
 
+    renderProgressBar = () => {
+        const { currentCampaignIndex } = this.state;
+        return (
+            <div className="progress-count">
+                {currentCampaignIndex} / 100
+            </div>
+        )
+    }
+
     render() {
         const { isRecording, micOption, micPermissionBlocked, recordError, isSubmitting, isPlaying, campaignData, recordedAudio, reRecording, /* playerStatus, */ currentCampaignIndex } = this.state;
         const disableSubmitButton = !recordedAudio || reRecording || isRecording || isPlaying;
         return (
             <div className="speak-slider-wrapper">
+                {this.renderProgressBar()}
                 <div className="record-instruction">
                     {(micPermissionBlocked || recordError.isError)
                         ? <p className="danger"> {recordError.isError ? recordError.message : 'You must allow microphone access.'}</p>
