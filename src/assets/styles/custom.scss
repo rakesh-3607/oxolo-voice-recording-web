@@ -497,13 +497,26 @@
 
 //------------------------------------------------ progress-bar ------------------------------------------------------------//
 .progress-count {
+    span {
+        font-size: 30px;
+        background: $submit-button-background-webkit-gradient;
+        background: $submit-button-background-gradient;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
     position: absolute;
     top: 15px;
     right: 0;
     padding: 15px;
     border-radius: 10px 0 0 10px;
-    font-size: 30px;
-    color: $white-color;
-    background-color: $primary-color;
-    // font-family: 'ZillaSlab';    
+    background-color: $white-color;
+
+    .gradient-background {
+        width: 100%;
+        height: 100%;
+        top: 0;
+        right: 0;
+        opacity: 0.3;
+    }
 }
