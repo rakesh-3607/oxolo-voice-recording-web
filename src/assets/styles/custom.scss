@@ -494,3 +494,52 @@
         }
     }
 }
+
+//------------------------------------------- progress-bar -------------------------------------------------------//
+.meter {
+    height: 30px;
+    border-radius: 20px 20px 0 0;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 50%;
+    background: #bee0ff;
+    overflow: hidden;
+}
+
+.meter span {
+    display: block;
+    height: 100%;
+}
+
+.progress {
+    border-radius: 50px;
+    background-color: #0099ff;
+    font-size: 15px;
+    transition: 1s width ease-in-out;
+    animation: progressBar 3s ease-in-out;
+    animation-fill-mode: both;
+    -moz-animation: progressBar 3s ease-in-out;
+    -moz-animation-fill-mode: both;
+    width: 0;
+}
+
+@keyframes progressBar {
+    0% {
+        width: 0;
+    }
+
+    100% {
+        width: 100%;
+    }
+}
+
+@-moz-keyframes progressBar {
+    0% {
+        width: 0;
+    }
+
+    100% {
+        width: 100%;
+    }
+}

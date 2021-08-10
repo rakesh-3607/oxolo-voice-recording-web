@@ -79,17 +79,6 @@ class Campaign extends Component<Props> {
     componentDidMount = () => {
         this.createUser()
         this.getCampaignData()
-        getLottieScale(WINDOW_WIDTH + 'X' + WINDOW_HEIGHT)
-            .then(lottieScale => {
-                this.setState({ lottieScale })
-            });
-        // this.setState({
-        //     lottieScale: {
-        //         height: (WINDOW_HEIGHT <= 768 ? (WINDOW_WIDTH <= 1024 ? 115 : 150) : (WINDOW_HEIGHT >= 731 ? 200 : 135)),
-        //         width: (WINDOW_WIDTH <= 1024 ? 330 : (WINDOW_HEIGHT >= 731 ? 300 : 130))
-        //     }
-        // })
-        // this.initRecording()
     }
 
     getCampaignData = () => {
@@ -354,11 +343,24 @@ class Campaign extends Component<Props> {
         })
     }
 
+    renderProgressBar = () => {
+        const { currentCampaignIndex } = this.state;
+        return (
+            <div className="meter">
+                <span style={{ width: `${currentCampaignIndex}%` }}><span className="progress"></span></span>
+            </div>
+            // <div className="progress progress-striped active">
+            //     <div role="progressbar progress-striped" style={{ width: `${currentCampaignIndex}%` }} className="progress-bar"><span>Primary</span></div>
+            // </div>
+        )
+    }
+
     render() {
         const { isRecording, micOption, micPermissionBlocked, recordError, isSubmitting, isPlaying, campaignData, recordedAudio, reRecording, /* playerStatus, */ currentCampaignIndex } = this.state;
         const disableSubmitButton = !recordedAudio || reRecording || isRecording || isPlaying;
         return (
             <div className="speak-slider-wrapper">
+                {this.renderProgressBar()}
                 <div className="record-instruction">
                     {(micPermissionBlocked || recordError.isError)
                         ? <p className="danger"> {recordError.isError ? recordError.message : 'You must allow microphone access.'}</p>
