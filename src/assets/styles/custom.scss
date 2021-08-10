@@ -24,7 +24,7 @@
         border-radius: 50% !important;
         -webkit-animation: rotate 0.7s ease-in-out .25s infinite;
         animation: rotate 0.7s ease-in-out .25s infinite;
-        border: 2px solid #2E8EFF !important;
+        border: 2px solid $primary-color-dark !important;
         border-left-color: transparent !important;
     }
 
@@ -144,7 +144,7 @@
     &>button {
         font-family: 'ZillaSlab';
         letter-spacing: 1px;
-        color: #2e8eff;
+        color: $primary-color-dark;
         font-size: 18px;
         // padding: 10px 20px !important;
     }

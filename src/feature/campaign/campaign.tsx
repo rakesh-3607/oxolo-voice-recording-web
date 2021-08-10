@@ -6,9 +6,12 @@ import { ensureMediaPermissions, getLottieScale } from '../../shared/utils/utiit
 import HttpService from '../../shared/services/http.service';
 import { CAMPAIGNS, WINDOW_WIDTH, WINDOW_HEIGHT } from '../../shared/constants/constants'
 
-import { Mic, PlayIcon, ReRecord, StopIcon } from '../../assets/icons/svgIcons';
+import { CloseIconCircle, DownArrowCircle, Mic, PlayIcon, ReRecord, StopIcon } from '../../assets/icons/svgIcons';
 import { Carousel, SubmitButton } from '../../shared/common/carousel';
 import animationData from '../../assets/animations/lf30_editor_kwigzxyh.json';
+import Notification from '../../shared/common/Notification';
+import { ToastContainer, toast, Flip } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface Sentence {
     sentenceId: string,
@@ -23,6 +26,10 @@ interface UIState {
     isRecording: boolean;
     isPlaying: boolean;
     isSubmitting: boolean;
+    uploadingProgress: [{
+        id: string;
+        progress: number;
+    }];
     playerStatus: string;
     campaignData: Sentence[];
     currentCampaignIndex: number;
@@ -46,6 +53,7 @@ class Campaign extends Component<Props> {
     recorder: any = null;
     microphone: any = null;
     audioRef: any = createRef();
+    toastId: any = createRef();
     userInfo: object = {};
 
     state: UIState = {
@@ -53,6 +61,10 @@ class Campaign extends Component<Props> {
         isRecording: false,
         isPlaying: false,
         isSubmitting: false,
+        uploadingProgress: [{
+            id: '',
+            progress: 0
+        }],
         playerStatus: 'stop',
         campaignData: [],
         currentCampaignIndex: parseInt(localStorage.getItem("currentCampaignIndex") || '0'),
@@ -238,6 +250,9 @@ class Campaign extends Component<Props> {
             .then((credentials: any) => {
                 this.uploadFileToS3(credentials)
                     .then(audioDetails => {
+                        console.log("Done");
+
+                        toast.dismiss(this.toastId.current);
                         this.saveRecording(audioDetails);
                     })
             })
@@ -288,11 +303,41 @@ class Campaign extends Component<Props> {
             // Actual file has to be appended last.
             formData.append("file", file);
             const xhr = new XMLHttpRequest();
-            xhr.open("POST", presignedPostData.uploadUrl, true);
-            xhr.send(formData);
+            xhr.upload.addEventListener('progress', (event) => {
+                let uploadingProgress = [...this.state.uploadingProgress]
+                const progress = parseFloat((event.loaded / event.total).toFixed(1));
+                console.log("this.toastId.current : ", this.toastId.current);
+
+                console.log("Uploading original : ", progress);
+                // console.log("Uploading Rounded: ", Math.round(progress));
+                console.log("Uploading fixed : ", progress);
+                // check if we already displayed a toast
+                if (!uploadingProgress.map((data: any) => data.id).includes(this.toastId.current)) {
+                    this.toastId.current = toast.info('Upload in Progress', {
+                        position: "top-right",
+                        autoClose: false,
+                        transition: Flip,
+                        hideProgressBar: false,
+                        closeButton: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress,
+                    });
+                    uploadingProgress.push({ id: this.toastId.current, progress: 0 })
+                    this.setState({})
+
+                } else {
+                    toast.update(this.toastId.current, {
+                        progress: progress
+                    })
+                }
+            }, false);
             xhr.onload = function () {
                 this.status === 204 ? resolve(params) : reject(this.responseText);
             };
+            xhr.open("POST", presignedPostData.uploadUrl, true);
+            xhr.send(formData);
         });
     };
 
@@ -354,6 +399,16 @@ class Campaign extends Component<Props> {
         })
     }
 
+    // renderUploadingToast = () => {
+    //     return (
+    //         <Notification
+    //             open={this.state.message ? true : false}
+    //             type={this.state.type}
+    //             message={this.state.message}
+    //         />
+    //     )
+    // }
+
     render() {
         const { isRecording, micOption, micPermissionBlocked, recordError, isSubmitting, isPlaying, campaignData, recordedAudio, reRecording, /* playerStatus, */ currentCampaignIndex } = this.state;
         const disableSubmitButton = !recordedAudio || reRecording || isRecording || isPlaying;
@@ -369,6 +424,8 @@ class Campaign extends Component<Props> {
                     slideData={campaignData.map((ele: Sentence, index: number) => ele.sentence)}
                     initialSlide={currentCampaignIndex}
                 />
+
+                <ToastContainer />
                 {currentCampaignIndex < 100 && (
                     <div className="footer">
                         <div className="record-wrapper">
