@@ -358,7 +358,7 @@ class Campaign extends Component<Props> {
         const { currentCampaignIndex } = this.state;
         return (
             <div className="progress-count">
-                <span>{currentCampaignIndex} / 100</span>
+                <span>{currentCampaignIndex < 100 ? currentCampaignIndex + 1 : currentCampaignIndex} / 100</span>
                 <div className="gradient-background"></div>
             </div>
         )
