@@ -10,8 +10,9 @@ import { CloseIconCircle, DownArrowCircle, Mic, PlayIcon, ReRecord, StopIcon } f
 import { Carousel, SubmitButton } from '../../shared/common/carousel';
 import animationData from '../../assets/animations/lf30_editor_kwigzxyh.json';
 import Notification from '../../shared/common/Notification';
-import { ToastContainer, toast, Flip } from 'react-toastify';
+import { ToastContainer, toast, Flip, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { isEmpty } from 'lodash';
 
 interface Sentence {
     sentenceId: string,
@@ -29,7 +30,7 @@ interface UIState {
     uploadingProgress: [{
         id: string;
         progress: number;
-    }];
+    }] | any;
     playerStatus: string;
     campaignData: Sentence[];
     currentCampaignIndex: number;
@@ -61,10 +62,7 @@ class Campaign extends Component<Props> {
         isRecording: false,
         isPlaying: false,
         isSubmitting: false,
-        uploadingProgress: [{
-            id: '',
-            progress: 0
-        }],
+        uploadingProgress: [],
         playerStatus: 'stop',
         campaignData: [],
         currentCampaignIndex: parseInt(localStorage.getItem("currentCampaignIndex") || '0'),
@@ -223,6 +221,7 @@ class Campaign extends Component<Props> {
 
     handleSubmit = () => {
         this.setState({ isSubmitting: true })
+        this.getUploadCredentials(this.state.currentCampaignIndex.toString())
         var SubmitButton = document.getElementsByClassName("submit-button")[0];
         SubmitButton.classList.add("pending");
 
@@ -239,20 +238,15 @@ class Campaign extends Component<Props> {
             // document.body.removeChild(SubmitButton)
             this.setState({ isSubmitting: false, recordedAudio: '', currentCampaignIndex: this.state.currentCampaignIndex + 1 }, () => {
                 localStorage.setItem("currentCampaignIndex", (this.state.currentCampaignIndex).toString())
-                this.getUploadCredentials()
             })
         }, 1700);
     }
 
-    getUploadCredentials = () => {
-        const params = { sentenceId: this.state.campaignData[this.state.currentCampaignIndex - 1].sentenceId }
-        HttpService.post('recording/upload-credential', params)
+    getUploadCredentials = (sentenceId: string) => {
+        HttpService.post('recording/upload-credential', { sentenceId })
             .then((credentials: any) => {
                 this.uploadFileToS3(credentials)
                     .then(audioDetails => {
-                        console.log("Done");
-
-                        toast.dismiss(this.toastId.current);
                         this.saveRecording(audioDetails);
                     })
             })
@@ -283,9 +277,68 @@ class Campaign extends Component<Props> {
     }
 
 
+    // uploadFileToS3 = (presignedPostData: any) => {
+    //     const sentenceId = this.state.campaignData[this.state.currentCampaignIndex - 1].sentenceId
+    //     const fileUrl = `${presignedPostData.uploadUrl}/${sentenceId}/${presignedPostData.fileId}`
+    //     const file = new File([this.recorder.getBlob()], this.getFileName('wav'), {
+    //         type: 'audio/wav'
+    //     });
+
+    //     const params = {
+    //         sentenceId,
+    //         fileUrl,
+    //         fileId: presignedPostData.fileId
+    //     }
+    //     return new Promise((resolve, reject) => {
+    //         const formData = new FormData();
+    //         Object.keys(presignedPostData.fields).forEach(key => {
+    //             formData.append(key, presignedPostData.fields[key]);
+    //         });
+    //         // Actual file has to be appended last.
+    //         formData.append("file", file);
+    //         const xhr = new XMLHttpRequest();
+    //         xhr.upload.addEventListener('progress', (event) => {
+    //             let uploadingProgress = [...this.state.uploadingProgress]
+    //             const progress = parseFloat((event.loaded / event.total).toFixed(1));
+    //             console.log("this.toastId.current : ", this.toastId.current);
+
+    //             console.log("Uploading original : ", progress);
+    //             // console.log("Uploading Rounded: ", Math.round(progress));
+    //             console.log("Uploading fixed : ", progress);
+    //             // check if we already displayed a toast
+    //             if (!uploadingProgress.map((data: any) => data.id).includes(this.toastId.current)) {
+    //                 this.toastId.current = toast.info('Upload in Progress', {
+    //                     position: "top-right",
+    //                     autoClose: false,
+    //                     transition: Flip,
+    //                     hideProgressBar: false,
+    //                     closeButton: false,
+    //                     closeOnClick: true,
+    //                     pauseOnHover: true,
+    //                     draggable: true,
+    //                     progress,
+    //                 });
+    //                 uploadingProgress.push({ id: this.toastId.current, progress: 0 })
+    //                 this.setState({})
+
+    //             } else {
+    //                 toast.update(this.toastId.current, {
+    //                     progress: progress
+    //                 })
+    //             }
+    //         }, false);
+    //         xhr.onload = function () {
+    //             this.status === 204 ? resolve(params) : reject(this.responseText);
+    //         };
+    //         xhr.open("POST", presignedPostData.uploadUrl, true);
+    //         xhr.send(formData);
+    //     });
+    // };
+
     uploadFileToS3 = (presignedPostData: any) => {
         const sentenceId = this.state.campaignData[this.state.currentCampaignIndex - 1].sentenceId
         const fileUrl = `${presignedPostData.uploadUrl}/${sentenceId}/${presignedPostData.fileId}`
+        const fileId = presignedPostData.fileId;
         const file = new File([this.recorder.getBlob()], this.getFileName('wav'), {
             type: 'audio/wav'
         });
@@ -293,7 +346,7 @@ class Campaign extends Component<Props> {
         const params = {
             sentenceId,
             fileUrl,
-            fileId: presignedPostData.fileId
+            fileId
         }
         return new Promise((resolve, reject) => {
             const formData = new FormData();
@@ -304,34 +357,43 @@ class Campaign extends Component<Props> {
             formData.append("file", file);
             const xhr = new XMLHttpRequest();
             xhr.upload.addEventListener('progress', (event) => {
-                let uploadingProgress = [...this.state.uploadingProgress]
-                const progress = parseFloat((event.loaded / event.total).toFixed(1));
-                console.log("this.toastId.current : ", this.toastId.current);
 
-                console.log("Uploading original : ", progress);
-                // console.log("Uploading Rounded: ", Math.round(progress));
-                console.log("Uploading fixed : ", progress);
-                // check if we already displayed a toast
-                if (!uploadingProgress.map((data: any) => data.id).includes(this.toastId.current)) {
-                    this.toastId.current = toast.info('Upload in Progress', {
+                let uploadingProgress = { ...this.state.uploadingProgress }
+                uploadingProgress = {
+                    ...uploadingProgress,
+                    [event.total]: parseFloat((event.loaded / event.total).toFixed(1))
+                };
+                this.setState({ uploadingProgress }, () => {
+                    console.log("uploadingProgress : ", this.state.uploadingProgress);
+                    const toastId = event.total.toString();
+                    toast.success(file.name, {
+                        toastId: toastId,
                         position: "top-right",
                         autoClose: false,
-                        transition: Flip,
+                        transition: Zoom,
                         hideProgressBar: false,
-                        closeButton: false,
-                        closeOnClick: true,
                         pauseOnHover: true,
                         draggable: true,
-                        progress,
+                        progress: this.state.uploadingProgress[event.total]
                     });
-                    uploadingProgress.push({ id: this.toastId.current, progress: 0 })
-                    this.setState({})
-
-                } else {
-                    toast.update(this.toastId.current, {
-                        progress: progress
+                    toast.update(toastId, {
+                        progress: this.state.uploadingProgress[event.total]
                     })
-                }
+                    if (!isEmpty(uploadingProgress) && uploadingProgress[toastId] === 1) {
+                        toast.dismiss(toastId);
+                        delete uploadingProgress[toastId]
+                        this.setState({ uploadingProgress })
+                    }
+                    // for (const key in uploadingProgress) {
+                    //     console.log("Key : ", key);
+
+                    //     if (uploadingProgress[key] === 1) {
+                    //         toast.dismiss(key);
+                    //         delete uploadingProgress[key]
+                    //         this.setState({ uploadingProgress })
+                    //     }
+                    // }
+                })
             }, false);
             xhr.onload = function () {
                 this.status === 204 ? resolve(params) : reject(this.responseText);
@@ -412,7 +474,9 @@ class Campaign extends Component<Props> {
     render() {
         const { isRecording, micOption, micPermissionBlocked, recordError, isSubmitting, isPlaying, campaignData, recordedAudio, reRecording, /* playerStatus, */ currentCampaignIndex } = this.state;
         const disableSubmitButton = !recordedAudio || reRecording || isRecording || isPlaying;
+        // console.log("Uploading batch : ", this.state.uploadingProgress);
         return (
+
             <div className="speak-slider-wrapper">
                 <div className="record-instruction">
                     {(micPermissionBlocked || recordError.isError)
