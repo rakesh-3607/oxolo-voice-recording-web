@@ -1043,42 +1043,42 @@ iframe {
 	border: none;
 }
 
-.Toastify__toast {
-	background: $gray-color-dark-2 !important;
-	-webkit-backdrop-filter: blur(43px);
-	backdrop-filter: blur(43px);
-	font-size: 0.75rem;
-	font-weight: 500;
-	padding-left: 30px !important;
+// .Toastify__toast {
+// 	background: $gray-color-dark-2 !important;
+// 	-webkit-backdrop-filter: blur(43px);
+// 	backdrop-filter: blur(43px);
+// 	font-size: 0.75rem;
+// 	font-weight: 500;
+// 	padding-left: 30px !important;
 
-	&::before {
-		position: absolute;
-		content: '';
-		width: 8px;
-		height: 8px;
-		border-radius: 50%;
-		top: calc(50% - 4px);
-		left: 10px;
-		-webkit-backdrop-filter: blur(15px);
-		backdrop-filter: blur(15px);
-	}
+// 	&::before {
+// 		position: absolute;
+// 		content: '';
+// 		width: 8px;
+// 		height: 8px;
+// 		border-radius: 50%;
+// 		top: calc(50% - 4px);
+// 		left: 10px;
+// 		-webkit-backdrop-filter: blur(15px);
+// 		backdrop-filter: blur(15px);
+// 	}
 
-	&.Toastify__toast--error {
-		&::before {
-			background-color: $primary-color;
-			box-shadow: 0px 4px 4px rgba(221, 94, 94, 0.3);
-		}
+// 	&.Toastify__toast--error {
+// 		&::before {
+// 			background-color: $primary-color;
+// 			box-shadow: 0px 4px 4px rgba(221, 94, 94, 0.3);
+// 		}
 
-	}
+// 	}
 
-	&.Toastify__toast--success {
-		&::before {
-			background-color: $secondary-color;
-			box-shadow: 0px 4px 4px rgba(109, 185, 90, 0.3);
-		}
+// 	&.Toastify__toast--success {
+// 		&::before {
+// 			background-color: $secondary-color;
+// 			box-shadow: 0px 4px 4px rgba(109, 185, 90, 0.3);
+// 		}
 
-	}
-}
+// 	}
+// }
 
 .btn {
 	@include button();

@@ -366,7 +366,7 @@ class Campaign extends Component<Props> {
                 this.setState({ uploadingProgress }, () => {
                     console.log("uploadingProgress : ", this.state.uploadingProgress);
                     const toastId = event.total.toString();
-                    toast.success(file.name, {
+                    toast.info(file.name, {
                         toastId: toastId,
                         position: "top-right",
                         autoClose: false,
@@ -384,15 +384,6 @@ class Campaign extends Component<Props> {
                         delete uploadingProgress[toastId]
                         this.setState({ uploadingProgress })
                     }
-                    // for (const key in uploadingProgress) {
-                    //     console.log("Key : ", key);
-
-                    //     if (uploadingProgress[key] === 1) {
-                    //         toast.dismiss(key);
-                    //         delete uploadingProgress[key]
-                    //         this.setState({ uploadingProgress })
-                    //     }
-                    // }
                 })
             }, false);
             xhr.onload = function () {
